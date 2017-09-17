@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_announcement"
+            android:icon="@drawable/ic_announcement"
+            android:title="Announcement" />
+        <item android:title="Report Summary">
+            <menu>
+                <item
+                    android:id="@+id/nav_bill_history"
+                    android:icon="@drawable/ic_bill"
+                    android:title="Bill History" />
+                <item
+                    android:id="@+id/nav_graph"
+                    android:icon="@drawable/ic_consumption"
+                    android:title="Graph" />
+            </menu>
+        </item>
+        <item android:title="Tools">
+            <menu>
+                <item
+                    android:id="@+id/nav_bill_calculator"
+                    android:icon="@drawable/ic_calculator"
+                    android:title="Bill Calculator" />
+                <item
+                    android:id="@+id/nav_incident_report"
+                    android:icon="@drawable/ic_report"
+                    android:title="Incident Report" />
+                <item
+                    android:id="@+id/nav_bill_prediction"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Bill Prediction" />
+            </menu>
+        </item>
+        <item android:title="User">
+            <menu>
+                <item
+                    android:id="@+id/nav_profile"
+                    android:icon="@drawable/ic_profile"
+                    android:title="Profile" />
+                <item
+                    android:id="@+id/nav_activate_account"
+                    android:icon="@drawable/ic_activate"
+                    android:title="Activate Account" />
+                <item
+                    android:id="@+id/nav_switch_account"
+                    android:icon="@drawable/ic_switch"
+                    android:title="Switch Account" />
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+</menu>

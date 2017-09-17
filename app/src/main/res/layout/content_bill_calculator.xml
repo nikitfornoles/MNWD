@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="org.mnwd.mnwd.BillCalculator"
+    tools:showIn="@layout/app_bar_bill_calculator">
+
+    <LinearLayout
+        android:id="@+id/Row1"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#cfd8dc"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/idTxtAcctClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Classification:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="50"/>
+
+        <Spinner
+            android:id="@+id/idSpinnerAcctClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundTint="@color/colorPrimary"
+            android:layout_weight="50">
+        </Spinner>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Row2"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#cfd8dc"
+        android:layout_below="@+id/Row1"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/txtCubicMeterUsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cubic Meter Used:"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_weight="50"/>
+
+        <EditText
+            android:id="@+id/idEditCuM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:textColorHint="@color/colorPrimary"
+            android:inputType="number"
+            android:textAlignment="inherit"
+            android:layout_weight="50"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Row3"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/Row2"
+        android:background="#cfd8dc"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/idTxtMeterSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meter Size:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_weight="50"/>
+
+        <Spinner
+            android:id="@+id/idSpinnerMeterSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="30">
+        </Spinner>
+
+        <TextView
+            android:text="inch/es"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_weight="20"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Row4"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#cfd8dc"
+        android:layout_below="@+id/Row3">
+
+        <TextView
+            android:id="@+id/idTxtType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type:"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/idRadioType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/idRadioSeniorCitizen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Senior Citizen"
+                android:textColor="#263238"
+                android:textStyle="bold"
+                android:layout_marginLeft="25dp"/>
+
+            <RadioButton
+                android:id="@+id/idRadioRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Regular"
+                android:textColor="#263238"
+                android:textStyle="bold"
+                android:layout_marginLeft="25dp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/idBtnCalculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Row4"
+        android:textSize="13sp"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:id="@+id/Row5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/idBtnCalculate"
+        android:background="#9ea7aa"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/idTotalBill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Bill: "
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#263238"
+            android:textStyle="bold"
+            android:layout_weight="50"/>
+
+        <TextView
+            android:id="@+id/idTxtTotalBill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="#ffffff"
+            android:textColorHint="#000"
+            android:layout_weight="50"/>
+    </LinearLayout>
+</RelativeLayout>

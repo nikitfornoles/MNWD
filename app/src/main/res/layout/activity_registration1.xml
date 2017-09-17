@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.mnwd.mnwd.Registration1">
+
+    <TextView
+        android:id="@+id/idTxtStep1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Step 1"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/idTxtValidation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idTxtStep1"
+        android:paddingTop="20dp"
+        android:text="Validation"
+        android:textColor="?android:attr/textColorTertiary"
+        android:textSize="25sp" />
+
+    <EditText
+        android:paddingTop="30dp"
+        android:id="@+id/idEditAccountNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Account No. (Ex. 486-31-543)"
+        android:layout_below="@+id/idTxtValidation" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/idBtnNext"
+        android:layout_below="@+id/idEditAccountNo"
+        android:text="Next"/>
+
+</RelativeLayout>

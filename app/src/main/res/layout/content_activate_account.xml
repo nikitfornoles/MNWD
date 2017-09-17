@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="org.mnwd.mnwd.ActivateAccount"
+    tools:showIn="@layout/app_bar_activate_account">
+
+    <TextView
+        android:id="@+id/idTxtActivateInfo1"
+        android:text="You can only activate accounts that are registered under your name."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <Spinner
+        android:id="@+id/idSpinnerActivateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idTxtActivateInfo1"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="60dp">
+    </Spinner>
+
+    <Button
+        android:id="@+id/idBtnActivateAccount"
+        android:text="Activate Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idSpinnerActivateAccount"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/idTxtActivateInfo2"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

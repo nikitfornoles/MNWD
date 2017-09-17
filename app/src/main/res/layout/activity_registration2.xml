@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    tools:context="org.mnwd.mnwd.Registration2">
+
+    <TextView
+        android:id="@+id/idTxtStep2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Step 2"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/idTxtInstuction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idTxtStep2"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text="To continue, fill out the following form to let us know that you own this account. After filling out the form, you will be redirected to your email address for the confirmation."
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bill Date:"
+        android:id="@+id/idTxtBillDate"
+        android:layout_below="@+id/idTxtInstuction"/>
+
+    <LinearLayout
+        android:id="@+id/idDateRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_below="@+id/idTxtBillDate"
+        android:weightSum="100">
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/month_array"
+            android:layout_below="@+id/idTxtBillDate"
+            android:id="@+id/idSpinnerMonth"
+            android:layout_weight="45">
+        </Spinner>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/day_array"
+            android:layout_below="@+id/idTxtBillDate"
+            android:layout_toRightOf="@+id/idSpinnerMonth"
+            android:layout_toEndOf="@+id/idSpinnerMonth"
+            android:id="@+id/idSpinnerDay"
+            android:layout_weight="15">
+        </Spinner>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/year_array"
+            android:layout_below="@+id/idTxtBillDate"
+            android:layout_toRightOf="@+id/idSpinnerDay"
+            android:layout_toEndOf="@+id/idSpinnerDay"
+            android:id="@+id/idSpinnerYear"
+            android:layout_weight="40">
+        </Spinner>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/idTxtBillAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idDateRow"
+        android:layout_marginTop="20dp"
+        android:text="Bill Amount"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/idEditBillAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/idTxtBillAmount"/>
+
+    <Button
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/idBtnNextReg2"
+        android:layout_below="@+id/idEditBillAmount"/>
+</RelativeLayout>

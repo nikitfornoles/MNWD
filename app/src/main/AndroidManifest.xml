@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.mnwd.mnwd">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:largeHeap="true"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Registration1" android:label="Registration" />
+        <activity android:name=".Registration2" android:label="Registration" />
+        <activity android:name=".Registration3" android:label="Registration" />
+        <activity android:name=".RegistrationMessage" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Announcement"
+            android:label="@string/title_activity_announcement"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Graph"
+            android:label="@string/title_activity_graph"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BillHistory"
+            android:label="@string/title_activity_bill_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BillCalculator"
+            android:label="@string/title_activity_bill_calculator"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IncidentReport"
+            android:label="@string/title_activity_incident_report"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BillPrediction"
+            android:label="@string/title_activity_bill_prediction"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SwitchAccount"
+            android:label="@string/title_activity_switch_account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivateAccount"
+            android:label="@string/title_activity_activate_account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ChooseAccount"></activity>
+    </application>
+
+</manifest>

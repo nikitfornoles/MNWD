@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="org.mnwd.mnwd.IncidentReport"
+    tools:showIn="@layout/app_bar_incident_report"
+    android:id="@+id/incidentreport_page">
+
+    <TextView
+        android:id="@+id/idTxtType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="42dp"
+        android:text="Type"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/idRadioType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_below="@+id/idTxtType">
+
+        <RadioButton
+            android:id="@+id/idRadioLeakage"
+            android:text="Leakage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/idRadioIllegalDisconnection"
+            android:text="Illegal Disconnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/idRadioDefectiveMeter"
+            android:text="Defective Meter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/idRadioDirtyWater"
+            android:text="Dirty Water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/idRadioOthers"
+            android:text="Others"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <TextView
+        android:text="Description"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idRadioType"
+        android:layout_alignLeft="@+id/idTxtType"
+        android:layout_alignStart="@+id/idTxtType"
+        android:id="@+id/idTxtDescription" />
+
+    <EditText
+        android:id="@+id/idEditDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:ems="10"
+        android:textSize="20sp"
+        android:inputType="textMultiLine"
+        android:layout_below="@+id/idTxtDescription" />
+
+    <Button
+        android:id="@+id/idBtnReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idEditDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="Report" />
+
+</RelativeLayout>
