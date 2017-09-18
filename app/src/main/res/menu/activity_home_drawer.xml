@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/ic_homepage"
             android:title="Home" />
         <item
             android:id="@+id/nav_announcement"
@@ -13,7 +13,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_bill_history"
-                    android:icon="@drawable/ic_bill"
+                    android:icon="@drawable/ic_bill2"
                     android:title="Bill History" />
                 <item
                     android:id="@+id/nav_graph"
@@ -29,11 +29,11 @@
                     android:title="Bill Calculator" />
                 <item
                     android:id="@+id/nav_incident_report"
-                    android:icon="@drawable/ic_report"
+                    android:icon="@drawable/ic_reportincident"
                     android:title="Incident Report" />
                 <item
                     android:id="@+id/nav_bill_prediction"
-                    android:icon="@drawable/ic_questionmark"
+                    android:icon="@drawable/ic_water_scale"
                     android:title="Bill Prediction" />
             </menu>
         </item>
@@ -41,21 +41,21 @@
             <menu>
                 <item
                     android:id="@+id/nav_profile"
-                    android:icon="@drawable/ic_profile"
+                    android:icon="@drawable/ic_profile_user"
                     android:title="Profile" />
                 <item
                     android:id="@+id/nav_activate_account"
-                    android:icon="@drawable/ic_activate"
+                    android:icon="@drawable/ic_door_key"
                     android:title="Activate Account" />
                 <item
                     android:id="@+id/nav_switch_account"
-                    android:icon="@drawable/ic_switch"
+                    android:icon="@drawable/ic_swap_arrows"
                     android:title="Switch Account" />
             </menu>
         </item>
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/ic_logout1"
             android:title="Logout" />
     </group>
 </menu>
