@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,4 +14,27 @@
     tools:context="org.mnwd.mnwd.Graph"
     tools:showIn="@layout/app_bar_graph">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+        <Spinner
+            android:id="@+id/idSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+        </Spinner>
+    </RelativeLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/idGraphBillAmount"
+        android:layout_width="match_parent"
+        android:layout_height="400dip"
+        android:visibility="gone"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/idGraphCubicMeterUsed"
+        android:layout_width="match_parent"
+        android:layout_height="400dip"
+        android:visibility="gone"/>
+</LinearLayout>
