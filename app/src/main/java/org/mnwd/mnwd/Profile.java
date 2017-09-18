@@ -3,6 +3,7 @@ package org.mnwd.mnwd;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,11 +16,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class Profile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Toolbar toolbar = null;
+
+    private String session_firstname, session_lastname, session_email, session_userid;
+    private String password_curr, password_new, password_confirm;
+    private String name, result;
+
+    private TextView txtName, txtEmail;
+    private EditText editCurrPassword, editNewPassword, editConfirmPassword;
+    private Button btnSubmit;
 
     //SESSION
     private SharedPreferences sharedPreferences;
@@ -54,6 +69,85 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
+
+        //RETRIEVE SESSION DATA
+        session_email = sharedPreferences.getString(Config.SESSION_EMAIL, null);
+        session_firstname = sharedPreferences.getString(Config.SESSION_FIRSTNAME, null);
+        session_lastname = sharedPreferences.getString(Config.SESSION_LASTNAME, null);
+        name = session_firstname + " " + session_lastname;
+
+        txtName = (TextView) findViewById(R.id.idTxtName);
+        txtEmail = (TextView) findViewById(R.id.idTxtEmail);
+        txtName.setText(name);
+        txtEmail.setText(session_email);
+
+        editCurrPassword = (EditText) findViewById(R.id.idEditCurrPassword);
+        editNewPassword = (EditText) findViewById(R.id.idEditNewPassword);
+        editConfirmPassword = (EditText) findViewById(R.id.idEditNewPassword2);
+
+        btnSubmit = (Button) findViewById(R.id.idBtnSubmit);
+        btnSubmit.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editPassword();
+                    }
+                }
+        );
+    }
+
+    private void editPassword () {
+        password_curr = editCurrPassword.getText().toString().trim();
+        password_new = editNewPassword.getText().toString().trim();
+        password_confirm = editConfirmPassword.getText().toString().trim();
+
+        class EditPassword extends AsyncTask<Void, Void, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    String profile_status = s.replaceAll(conn_success, "");
+                    String edit_success = "Password updated successfully";
+                    if (profile_status.contains(edit_success)) {
+                        Toast.makeText (Profile.this, edit_success, Toast.LENGTH_LONG).show();
+                        editCurrPassword.setText("");
+                        editNewPassword.setText("");
+                        editConfirmPassword.setText("");
+                    }
+                    else {
+                        Toast.makeText (Profile.this, profile_status, Toast.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Toast.makeText (Profile.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //RETRIEVE SESSION DATA
+                session_userid = sharedPreferences.getString(Config.SESSION_USERID, null);
+
+                HashMap<String, String> params = new HashMap<>();
+                params.put(Config.KEY_CON_USERID, session_userid);
+                params.put(Config.KEY_CON_PASSWORD, password_curr);
+                params.put(Config.KEY_CON_PASSWORD_NEW, password_new);
+                params.put(Config.KEY_CON_PASSWORD_CONFIRM, password_confirm);
+
+                RequestHandler rh = new RequestHandler();
+                result = rh.sendPostRequest(Config.URL_EDITPASSWORD, params);
+                return result;
+            }
+        }
+        EditPassword e = new EditPassword();
+        e.execute();
     }
 
     @Override

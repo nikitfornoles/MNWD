@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,11 +11,137 @@
     android:layout_marginBottom="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.Profile"
-    tools:showIn="@layout/app_bar_profile">
+    tools:showIn="@layout/app_bar_profile"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="16dp"
+            android:layout_weight="0"/>
+        <TextView
+            android:id="@+id/idTxtName"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0086c3"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="16dp"
+            android:layout_weight="100"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+        <TextView
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="16dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/idTxtEmail"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0086c3"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="16dp"
+            android:layout_weight="99"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profile" />
+        android:padding="10dp"
+        android:text="Edit Password"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/idEditCurrPassword"
+        android:inputType="textPassword"
+        android:hint="Current Password"
+        android:textColorHint="@android:color/white"
+        android:background="#0086c3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:text="*Password length should be atleast 10 that should include lowercase and uppercase character, a number, and punctuation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/idEditNewPassword"
+        android:inputType="textPassword"
+        android:hint="New Password"
+        android:textColorHint="@android:color/white"
+        android:background="#0086c3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/idEditNewPassword2"
+        android:inputType="textPassword"
+        android:hint="Confirm New Password"
+        android:textColorHint="@android:color/white"
+        android:background="#0086c3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:layout_margin="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/idBtnSubmit"
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorAccent"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:padding="10dp"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -21,6 +21,7 @@ public class Config {
     public static final String URL_GETALLACTIVATEDACCOUNTS = http + IP + "/mnwd_/mobile_getallactivatedaccounts.php";
     public static final String URL_ACTIVATEACCOUNT = http + IP + "/mnwd_/mobile_activateaccount.php";
     public static final String URL_GETALLLOGINOPTIONS = http + IP + "/mnwd_/mobile_getallloginoptions.php";
+    public static final String URL_EDITPASSWORD = http + IP + "/mnwd_/mobile_editpassword.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";
@@ -30,6 +31,8 @@ public class Config {
     public static final String KEY_READING_BILLAMOUNT = "billamount";
     public static final String KEY_CON_EMAIL = "email";
     public static final String KEY_CON_PASSWORD = "password";
+    public static final String KEY_CON_PASSWORD_NEW = "password_new";
+    public static final String KEY_CON_PASSWORD_CONFIRM = "password_confirm";
     public static final String KEY_INCIDENT_INCIDENTID = "incidentid";
     public static final String KEY_INCIDENT_DESCRIPTION = "description";
     public static final String KEY_AC_CLASSIFICATION = "classification";
