@@ -7,7 +7,7 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_announcement"
-            android:icon="@drawable/ic_announcement"
+            android:icon="@drawable/ic_announcement1"
             android:title="Announcement" />
         <item android:title="Report Summary">
             <menu>
