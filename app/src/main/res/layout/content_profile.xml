@@ -95,7 +95,7 @@
         android:layout_margin="10dp"/>
 
     <TextView
-        android:text="*Password length should be atleast 10 that should include lowercase and uppercase character, a number, and punctuation"
+        android:text="*Password length should be atleast 10 and should include lowercase and uppercase character, a number, and punctuation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
