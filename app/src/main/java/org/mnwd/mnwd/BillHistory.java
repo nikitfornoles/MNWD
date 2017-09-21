@@ -99,13 +99,11 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
 
             for(int i = 0; i<result.length(); i++){
                 JSONObject jo = result.getJSONObject(i);
-                //String readingid = jo.getString(Config.TAG_READING_READINGID);
                 String billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
                 String consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
                 String billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
 
                 HashMap<String,String> readings = new HashMap<>();
-                //readings.put(Config.TAG_READING_READINGID, readingid);
                 readings.put(Config.TAG_READING_BILLINGDATE, billingdate);
                 readings.put(Config.TAG_READING_CONSUMPTION, consumption);
                 readings.put(Config.TAG_READING_BILLAMOUNT, billamount);

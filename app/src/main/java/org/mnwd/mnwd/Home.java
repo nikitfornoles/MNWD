@@ -108,20 +108,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             jsonObject = new JSONObject(JSON_STRING);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
 
-            for(int i = 0; i<result.length(); i++){
-                JSONObject jo = result.getJSONObject(i);
-                billingmonth = jo.getString(Config.TAG_READING_BILLINGMONTH);
-                billingyear = jo.getString(Config.TAG_READING_BILLINGYEAR);
-                billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
-                previous_reading = jo.getString(Config.TAG_READING_PREVIOUS);
-                present_reading = jo.getString(Config.TAG_READING_PRESENT);
-                consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
-                billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
-                duedate = jo.getString(Config.TAG_READING_DUEDATE);
-                disconnection_date = jo.getString(Config.TAG_READING_DISCONNECTIONDATE);
-                refno = jo.getString(Config.TAG_READING_REFNO);
-                previous_billingdate = jo.getString(Config.TAG_READING_PREVIOUSBILLINGDATE);
-            }
+            JSONObject jo = result.getJSONObject(0);
+            billingmonth = jo.getString(Config.TAG_READING_BILLINGMONTH);
+            billingyear = jo.getString(Config.TAG_READING_BILLINGYEAR);
+            billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
+            previous_reading = jo.getString(Config.TAG_READING_PREVIOUS);
+            present_reading = jo.getString(Config.TAG_READING_PRESENT);
+            consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
+            billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
+            duedate = jo.getString(Config.TAG_READING_DUEDATE);
+            disconnection_date = jo.getString(Config.TAG_READING_DISCONNECTIONDATE);
+            refno = jo.getString(Config.TAG_READING_REFNO);
+            previous_billingdate = jo.getString(Config.TAG_READING_PREVIOUSBILLINGDATE);
 
             bill_with_penalty = Double.parseDouble(billamount);
             bill_with_penalty = bill_with_penalty + (bill_with_penalty * 0.1);
@@ -131,8 +129,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             txtDuedate.setText(duedate);
             txtDisconnectionDate.setText(disconnection_date);
             txtBillWithPenalty.setText(String.format("P %,.2f", bill_with_penalty));
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

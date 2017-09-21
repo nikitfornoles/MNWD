@@ -13,7 +13,6 @@ public class Config {
     public static final String URL_SENDEMAIL = http + IP + "/mnwd_/mobile_sendemail.php";
     public static final String URL_LOGIN = http + IP + "/mnwd_/mobile_login.php";
     public static final String URL_GETALLANNOUNCEMENTS = http + IP + "/mnwd_/mobile_announcements.php";
-    public static final String URL_GETCONSUMPTIONHISTORY = http + IP + "/mnwd_/mobile_consumptionhistory.php";
     public static final String URL_GETBILLHISTORY = http + IP + "/mnwd_/mobile_billhistory.php";
     public static final String URL_REPORTINCIDENT = http + IP + "/mnwd_/mobile_reportincident.php";
     public static final String URL_BILLCALCULATOR = http + IP + "/mnwd_/mobile_calculator.php";
