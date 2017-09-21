@@ -7,7 +7,7 @@ package org.mnwd.mnwd;
 public class Config {
     //Address of our scripts of the CRUD
     public static final String http = "http://";
-    public static final String IP = "192.168.1.7";
+    public static final String IP = "192.168.1.2";
     public static final String URL_FINDACCOUNTNO = http + IP + "/mnwd_/mobile_findaccountnumber.php";
     public static final String URL_FINDBILLINGDETAILS = http + IP + "/mnwd_/mobile_findbillingdetails.php";
     public static final String URL_SENDEMAIL = http + IP + "/mnwd_/mobile_sendemail.php";
@@ -22,6 +22,7 @@ public class Config {
     public static final String URL_ACTIVATEACCOUNT = http + IP + "/mnwd_/mobile_activateaccount.php";
     public static final String URL_GETALLLOGINOPTIONS = http + IP + "/mnwd_/mobile_getallloginoptions.php";
     public static final String URL_EDITPASSWORD = http + IP + "/mnwd_/mobile_editpassword.php";
+    public static final String URL_GETLATESTBILL = http + IP + "/mnwd_/mobile_getlatestbill.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";
@@ -57,10 +58,17 @@ public class Config {
     public static final String TAG_ANNOUNCEMENT_ANNOUNCEMENTID = "announcementid";
     public static final String TAG_ANNOUNCEMENT_ANNOUNCEMENT = "announcement";
     public static final String TAG_ANNOUNCEMENT_DATE = "date";
-    public static final String TAG_READING_READINGID = "readingid";
+    public static final String TAG_READING_BILLINGMONTH = "billingmonth";
+    public static final String TAG_READING_BILLINGYEAR = "billingyear";
     public static final String TAG_READING_BILLINGDATE = "billingdate";
+    public static final String TAG_READING_PREVIOUS = "previous_reading";
+    public static final String TAG_READING_PRESENT = "present_reading";
     public static final String TAG_READING_CONSUMPTION = "consumption";
     public static final String TAG_READING_BILLAMOUNT = "billamount";
+    public static final String TAG_READING_DUEDATE = "duedate";
+    public static final String TAG_READING_DISCONNECTIONDATE = "disconnection_date";
+    public static final String TAG_READING_REFNO = "refno";
+    public static final String TAG_READING_PREVIOUSBILLINGDATE = "previous_billingdate";
     public static final String TAG_ACCOUNT_ACCOUNTNO = "accountno";
     public static final String TAG_ACCOUNT_ACCOUNTID = "accountid";
 

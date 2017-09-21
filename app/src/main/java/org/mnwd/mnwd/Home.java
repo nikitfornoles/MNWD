@@ -3,6 +3,7 @@ package org.mnwd.mnwd;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
 home icon: home
@@ -39,9 +49,17 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private NavigationView navigationView;
     private Toolbar toolbar = null;
 
-    private String month;
+    private String billingmonth, billingyear, billingdate, previous_reading, present_reading, consumption;
+    private String billamount, duedate, disconnection_date, refno, previous_billingdate;
+    private double bill_with_penalty;
+
+    private TextView txtBillingMonth, txtBill, txtDuedate, txtDisconnectionDate, txtBillWithPenalty;
+
+    //content
+    private String JSON_STRING;
 
     //SESSION
+    private String session_accountid;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -55,12 +73,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).
+                        setAction("Action", null).show();
             }
         });
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -72,6 +92,90 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
+
+        txtBillingMonth = (TextView) findViewById(R.id.idTxtBillingMonth);
+        txtBill = (TextView) findViewById(R.id.idTxtBill);
+        txtDuedate = (TextView) findViewById(R.id.idTxtDuedate);
+        txtDisconnectionDate = (TextView) findViewById(R.id.idTxtDisconnectionDate);
+        txtBillWithPenalty = (TextView) findViewById(R.id.idTxtBillWithPenalty);
+
+        getJSON();
+    }
+
+    private void showCurrentBill () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_STRING);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            for(int i = 0; i<result.length(); i++){
+                JSONObject jo = result.getJSONObject(i);
+                billingmonth = jo.getString(Config.TAG_READING_BILLINGMONTH);
+                billingyear = jo.getString(Config.TAG_READING_BILLINGYEAR);
+                billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
+                previous_reading = jo.getString(Config.TAG_READING_PREVIOUS);
+                present_reading = jo.getString(Config.TAG_READING_PRESENT);
+                consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
+                billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
+                duedate = jo.getString(Config.TAG_READING_DUEDATE);
+                disconnection_date = jo.getString(Config.TAG_READING_DISCONNECTIONDATE);
+                refno = jo.getString(Config.TAG_READING_REFNO);
+                previous_billingdate = jo.getString(Config.TAG_READING_PREVIOUSBILLINGDATE);
+            }
+
+            bill_with_penalty = Double.parseDouble(billamount);
+            bill_with_penalty = bill_with_penalty + (bill_with_penalty * 0.1);
+
+            txtBillingMonth.setText("For the Month of " + billingmonth + " " + billingyear);
+            txtBill.setText("P " + billamount);
+            txtDuedate.setText(duedate);
+            txtDisconnectionDate.setText(disconnection_date);
+            txtBillWithPenalty.setText(String.format("P %,.2f", bill_with_penalty));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getJSON () {
+        class GetJSON extends AsyncTask<Void,Void,String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_STRING = s.replaceAll(conn_success, "");
+                    showCurrentBill();
+                }
+                else {
+                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GETLATESTBILL, parameter);
+                return s;
+            }
+        }
+        GetJSON gj = new GetJSON();
+        gj.execute();
     }
 
     @Override
