@@ -23,12 +23,20 @@
 
     <include layout="@layout/content_bill_calculator" />
 
+    <!--
+    notification icon: notifications-bell-button
+    <div>
+        Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a>
+        from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+        <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    </div>
+    -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_notifications_bell" />
 
 </android.support.design.widget.CoordinatorLayout>

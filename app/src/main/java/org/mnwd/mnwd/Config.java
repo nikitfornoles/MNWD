@@ -7,7 +7,7 @@ package org.mnwd.mnwd;
 public class Config {
     //Address of our scripts of the CRUD
     public static final String http = "http://";
-    public static final String IP = "192.168.1.2";
+    public static final String IP = "192.168.56.1";
     public static final String URL_FINDACCOUNTNO = http + IP + "/mnwd_/mobile_findaccountnumber.php";
     public static final String URL_FINDBILLINGDETAILS = http + IP + "/mnwd_/mobile_findbillingdetails.php";
     public static final String URL_SENDEMAIL = http + IP + "/mnwd_/mobile_sendemail.php";

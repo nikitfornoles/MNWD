@@ -99,7 +99,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@android:color/holo_red_light"
         android:textStyle="bold" />
 
     <EditText
