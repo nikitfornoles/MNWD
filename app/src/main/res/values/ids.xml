@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    This code is Shujito's answer to FanFM's question in stackoverflow.com
+    'Couldn't resolve resource @id/visible when using TextInputLayout'
+    which was the same bug encountered in the Login Java File (MainActivity.java)
+    'couldn't resolve resource @id/visible'
+-->
+<resources>
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+</resources>
