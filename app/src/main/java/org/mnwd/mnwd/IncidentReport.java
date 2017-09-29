@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -41,7 +44,7 @@ public class IncidentReport extends AppCompatActivity implements NavigationView.
 
     //widgets
     private RadioGroup radioIncidentType;
-    private EditText editDescription;
+    private TextInputEditText editDescription;
     private Button btnReport;
 
     @Override
@@ -101,7 +104,7 @@ public class IncidentReport extends AppCompatActivity implements NavigationView.
                 }
         );
 
-        editDescription = (EditText) findViewById(R.id.idEditDescription);
+        editDescription = (TextInputEditText) findViewById(R.id.idEditDescription);
 
         btnReport = (Button) findViewById(R.id.idBtnReport);
         btnReport.setOnClickListener(
@@ -115,56 +118,68 @@ public class IncidentReport extends AppCompatActivity implements NavigationView.
     }
 
     private void reportIncident () {
-        final String incident_description = editDescription.getText().toString().trim();
-
-        class ReportIncident extends AsyncTask <Void, Void, String> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+        if (TextUtils.isEmpty(editDescription.getText().toString().trim()) || incidentid.isEmpty()) {
+            if (TextUtils.isEmpty(editDescription.getText().toString().trim())) {
+                editDescription.setError("Description can't be empty");
             }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-
-                String conn_success = "connection success~";
-                if (s.contains(conn_success)) {
-                    String ir_msg = s.replaceAll(conn_success, "");
-                    String ir_success = "Incident successfully reported";
-                    if (ir_msg.contains(ir_success)) {
-                        Toast.makeText (IncidentReport.this, ir_success, Toast.LENGTH_LONG).show();
-                        editDescription.setText("");
-                        radioIncidentType.clearCheck();
-                        incidentid = "";
-                    }
-                    else {
-                        Toast.makeText (IncidentReport.this, ir_msg, Toast.LENGTH_LONG).show();
-                    }
-                }
-                else {
-                    Toast.makeText (IncidentReport.this, s, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                //RETRIEVE SESSION DATA
-                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
-
-                //argument for the php script
-                HashMap<String,String> params = new HashMap<> ();
-                params.put(Config.KEY_CON_ACCOUNTID, session_accountid);
-                params.put(Config.KEY_INCIDENT_INCIDENTID, incidentid);
-                params.put(Config.KEY_INCIDENT_DESCRIPTION, incident_description);
-
-                RequestHandler rh = new RequestHandler();
-                result = rh.sendPostRequest(Config.URL_REPORTINCIDENT, params);
-                return result;
+            if (incidentid.isEmpty()) {
+                Toast t = Toast.makeText (IncidentReport.this, "Choose Type", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
             }
         }
+        else {
+            final String incident_description = editDescription.getText().toString().trim();
 
-        ReportIncident r = new ReportIncident();
-        r.execute();
+            class ReportIncident extends AsyncTask <Void, Void, String> {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+
+                    String conn_success = "connection success~";
+                    if (s.contains(conn_success)) {
+                        String ir_msg = s.replaceAll(conn_success, "");
+                        String ir_success = "Incident successfully reported";
+                        if (ir_msg.contains(ir_success)) {
+                            Toast.makeText (IncidentReport.this, ir_success, Toast.LENGTH_LONG).show();
+                            editDescription.setText("");
+                            radioIncidentType.clearCheck();
+                            incidentid = "";
+                        }
+                        else {
+                            Toast.makeText (IncidentReport.this, ir_msg, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText (IncidentReport.this, s, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                protected String doInBackground(Void... voids) {
+                    //RETRIEVE SESSION DATA
+                    session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                    //argument for the php script
+                    HashMap<String,String> params = new HashMap<> ();
+                    params.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                    params.put(Config.KEY_INCIDENT_INCIDENTID, incidentid);
+                    params.put(Config.KEY_INCIDENT_DESCRIPTION, incident_description);
+
+                    RequestHandler rh = new RequestHandler();
+                    result = rh.sendPostRequest(Config.URL_REPORTINCIDENT, params);
+                    return result;
+                }
+            }
+
+            ReportIncident r = new ReportIncident();
+            r.execute();
+        }
     }
 
 
