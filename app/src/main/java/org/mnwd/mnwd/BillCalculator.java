@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,13 +41,13 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
     private String result;
 
     private Spinner spinnerAccountClassification, spinnerMeterSize;
-    private EditText editCubicMeterUsed;
+    private TextInputEditText editCubicMeterUsed;
     private RadioGroup radioType;
     private Button btnCalculate;
     private TextView txtTotalBill;
 
-    String [] CUSTTYPE = {"Residential", "Commercial", "Commercial A", "Commercial B", "Commercial C", "Bulk/Wholesale"};
-    String [] METERSIZE = {"1/2", "3/4", "1", "1.5", "2", "3", "4", "6", "8", "10"};
+    private String [] CUSTTYPE = {"Residential", "Commercial", "Commercial A", "Commercial B", "Commercial C", "Bulk/Wholesale"};
+    private String [] METERSIZE = {"1/2", "3/4", "1", "1.5", "2", "3", "4", "6", "8", "10"};
 
     //SESSION
     private SharedPreferences sharedPreferences;
@@ -82,7 +85,7 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
 
         spinnerAccountClassification = (Spinner) findViewById(R.id.idSpinnerAcctClass);
         spinnerMeterSize = (Spinner) findViewById(R.id.idSpinnerMeterSize);
-        editCubicMeterUsed = (EditText) findViewById(R.id.idEditCuM);
+        editCubicMeterUsed = (TextInputEditText) findViewById(R.id.idEditCuM);
         radioType = (RadioGroup) findViewById(R.id.idRadioType);
         radioType.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
@@ -122,52 +125,65 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
     }
 
     private void calculateBill () {
-        classification = String.valueOf(spinnerAccountClassification.getSelectedItem());
-        metersize = String.valueOf(spinnerMeterSize.getSelectedItem());
-        cubicMeterUsed = editCubicMeterUsed.getText().toString().trim();
-
-        class CalculateBill extends AsyncTask <Void, Void, String> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+        if (TextUtils.isEmpty(editCubicMeterUsed.getText().toString().trim()) || type.isEmpty()) {
+            if (TextUtils.isEmpty(editCubicMeterUsed.getText().toString().trim())) {
+                editCubicMeterUsed.setError("Usage can't be empty");
             }
+            if (type.isEmpty()) {
+                Toast t = Toast.makeText (BillCalculator.this, "Choose Type", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            }
+            txtTotalBill.setText("");
+        }
+        else {
+            classification = String.valueOf(spinnerAccountClassification.getSelectedItem());
+            metersize = String.valueOf(spinnerMeterSize.getSelectedItem());
+            cubicMeterUsed = editCubicMeterUsed.getText().toString().trim();
 
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+            class CalculateBill extends AsyncTask <Void, Void, String> {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                }
 
-                String conn_success = "connection success~";
-                if (s.contains(conn_success)) {
-                    String calculator_status = s.replaceAll(conn_success, "");
-                    String calculator_success = "billamount~";
-                    if (calculator_status.contains(calculator_success)) {
-                        totalbill = calculator_status.replaceAll(calculator_success, "");
-                        txtTotalBill.setText(totalbill);
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+
+                    String conn_success = "connection success~";
+                    if (s.contains(conn_success)) {
+                        String calculator_status = s.replaceAll(conn_success, "");
+                        String calculator_success = "billamount~";
+                        if (calculator_status.contains(calculator_success)) {
+                            totalbill = calculator_status.replaceAll(calculator_success, "");
+                            txtTotalBill.setText(totalbill);
+                        }
+                        else {
+                            Toast.makeText (BillCalculator.this, calculator_status, Toast.LENGTH_LONG).show();
+                        }
                     }
                     else {
-                        Toast.makeText (BillCalculator.this, calculator_status, Toast.LENGTH_LONG).show();
+                        Toast.makeText (BillCalculator.this, s, Toast.LENGTH_LONG).show();
                     }
                 }
-                else {
-                    Toast.makeText (BillCalculator.this, s, Toast.LENGTH_LONG).show();
+
+                @Override
+                protected String doInBackground(Void... voids) {
+                    HashMap <String, String> params = new HashMap<>();
+                    params.put(Config.KEY_AC_CLASSIFICATION, classification);
+                    params.put(Config.KEY_READING_CUM, cubicMeterUsed);
+                    params.put(Config.KEY_MS_SIZE, metersize);
+                    params.put(Config.KEY_ACC_TYPE, type);
+
+                    RequestHandler rh = new RequestHandler();
+                    result = rh.sendPostRequest(Config.URL_BILLCALCULATOR, params);
+                    return result;
                 }
             }
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                HashMap <String, String> params = new HashMap<>();
-                params.put(Config.KEY_AC_CLASSIFICATION, classification);
-                params.put(Config.KEY_READING_CUM, cubicMeterUsed);
-                params.put(Config.KEY_MS_SIZE, metersize);
-                params.put(Config.KEY_ACC_TYPE, type);
-
-                RequestHandler rh = new RequestHandler();
-                result = rh.sendPostRequest(Config.URL_BILLCALCULATOR, params);
-                return result;
-            }
+            CalculateBill c = new CalculateBill();
+            c.execute();
         }
-        CalculateBill c = new CalculateBill();
-        c.execute();
     }
 
     @Override
