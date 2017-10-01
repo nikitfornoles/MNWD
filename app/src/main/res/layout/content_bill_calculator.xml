@@ -42,7 +42,6 @@
         android:id="@+id/Row2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Row1"
         android:layout_marginTop="20dp"
         android:background="#cfd8dc"
         android:orientation="horizontal"
