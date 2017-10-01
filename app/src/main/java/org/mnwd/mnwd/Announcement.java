@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -34,6 +33,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar = null;
 
     //content
+    private TextView txtZero;
     private ListView listView;
     private String JSON_STRING;
     //
@@ -64,6 +64,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
 
         //ADD
+        txtZero = (TextView) findViewById(R.id.idTxtAnnouncementDefault);
         listView = (ListView) findViewById(R.id.listView_announcement);
         getJSON();
         //
@@ -73,36 +74,46 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private void showAnnouncements(){
         JSONObject jsonObject = null;
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
+        int length = 0;
         try {
             jsonObject = new JSONObject(JSON_STRING);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+            length = result.length();
 
-            for(int i = 0; i<result.length(); i++){
-                JSONObject jo = result.getJSONObject(i);
-                String announcementid = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID);
-                String announcement = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT);
-                String date = jo.getString(Config.TAG_ANNOUNCEMENT_DATE);
+            if (length == 0) {
+                txtZero.setVisibility(View.VISIBLE);
+            }
+            else {
+                for(int i = 0; i<result.length(); i++){
+                    JSONObject jo = result.getJSONObject(i);
+                    String announcementid = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID);
+                    String announcement = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT);
+                    String date = jo.getString(Config.TAG_ANNOUNCEMENT_DATE);
 
-                HashMap<String,String> announcements = new HashMap<>();
-                announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID, announcementid);
-                announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT, announcement);
-                announcements.put(Config.TAG_ANNOUNCEMENT_DATE, date);
-                list.add(announcements);
+                    HashMap<String,String> announcements = new HashMap<>();
+                    announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID, announcementid);
+                    announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT, announcement);
+                    announcements.put(Config.TAG_ANNOUNCEMENT_DATE, date);
+                    list.add(announcements);
+                }
+                listView.setVisibility(View.VISIBLE);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        ListAdapter adapter = new SimpleAdapter(
-                Announcement.this,
-                list,
-                R.layout.list_announcement,
-                new String[]{Config.TAG_ANNOUNCEMENT_DATE, Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT},
-                new int[]{R.id.announcement_date, R.id.announcement_announcement}
-        );
+        if (length > 0) {
+            ListAdapter adapter = new SimpleAdapter(
+                    Announcement.this,
+                    list,
+                    R.layout.list_announcement,
+                    new String[]{Config.TAG_ANNOUNCEMENT_DATE, Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT},
+                    new int[]{R.id.announcement_date, R.id.announcement_announcement}
+            );
 
-        listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
+        }
     }
 
     private void getJSON(){
