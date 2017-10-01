@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:layout_marginTop="16dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
@@ -14,84 +14,100 @@
     tools:context="org.mnwd.mnwd.Home"
     tools:showIn="@layout/app_bar_home">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/idTxtBillingMonth"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0086c3"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_margin="30dp"/>
-    </RelativeLayout>
-    <TextView
-        android:text="Current Bill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/idTxtBill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:text="Due Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/idTxtDuedate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:text="Disconnection Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/idTxtDisconnectionDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:text="Amount After Due Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/idTxtBillWithPenalty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="Download PDF"
-            android:id="@+id/idBtnPDF"
-            android:layout_width="wrap_content"
+            android:layout_weight="7">
+            <TextView
+                android:id="@+id/idTxtBillingMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0086c3"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:layout_margin="30dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="#0086c3"
-            android:padding="10dp"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_margin="20dp"/>
-    </RelativeLayout>
-</LinearLayout>
+            android:orientation="vertical"
+            android:layout_weight="5">
+            <TextView
+                android:text="Current Bill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/idTxtBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="Due Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/idTxtDuedate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="Disconnection Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/idTxtDisconnectionDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="Amount After Due Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/idTxtBillWithPenalty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:text="Download PDF"
+                android:id="@+id/idBtnPDF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="#0086c3"
+                android:padding="10dp"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_margin="20dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
