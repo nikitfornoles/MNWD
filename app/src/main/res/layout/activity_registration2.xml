@@ -1,90 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="16dp"
     tools:context="org.mnwd.mnwd.Registration2">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="Step 2"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="25sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif"
-        android:text="To continue, fill out the following form to let us know that you own this account. After filling out the form, you will be redirected to your email address for the confirmation."
-        android:textColor="@android:color/holo_blue_dark" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:textSize="25sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bill Date:" />
-
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="100">
+        android:layout_height="match_parent">
 
-        <Spinner
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Step 2"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="25sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/month_array"
-            android:id="@+id/idSpinnerMonth"
-            android:layout_weight="45">
-        </Spinner>
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif"
+            android:text="To continue, fill out the following form to let us know that you own this account. After filling out the form, you will be redirected to your email address for the confirmation."
+            android:textColor="@android:color/holo_blue_dark" />
 
-        <Spinner
+        <TextView
+            android:text="Bill Date:"
+            android:layout_marginTop="20dp"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="100">
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/month_array"
+                android:id="@+id/idSpinnerMonth"
+                android:layout_weight="45">
+            </Spinner>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/day_array"
+                android:id="@+id/idSpinnerDay"
+                android:layout_weight="15">
+            </Spinner>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/idSpinnerYear"
+                android:layout_weight="40">
+            </Spinner>
+        </LinearLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/day_array"
-            android:id="@+id/idSpinnerDay"
-            android:layout_weight="15">
-        </Spinner>
+            android:layout_marginTop="20dp"
+            android:text="Reference Number:"
+            android:textSize="22sp" />
 
-        <Spinner
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/idEditReferenceNo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/idBtnNextReg2"
+            android:text="Next"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/idSpinnerYear"
-            android:layout_weight="40">
-        </Spinner>
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Bill Amount"
-        android:textSize="25sp" />
-
-    <EditText
-        android:id="@+id/idEditBillAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/idTxtBillAmount"/>
-
-    <Button
-        android:id="@+id/idBtnNextReg2"
-        android:text="Next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"/>
-</LinearLayout>
+</ScrollView>

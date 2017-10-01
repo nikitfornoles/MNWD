@@ -29,6 +29,7 @@ public class Config {
     public static final String KEY_CON_ACCOUNTID = "accountid";
     public static final String KEY_CON_USERID = "userid";
     public static final String KEY_READING_BILLINGDATE = "billingdate";
+    public static final String KEY_READING_REFERENCENO = "referenceno";
     public static final String KEY_READING_BILLAMOUNT = "billamount";
     public static final String KEY_CON_EMAIL = "email";
     public static final String KEY_CON_PASSWORD = "password";
