@@ -54,11 +54,6 @@
         <item>31</item>
     </string-array>
 
-    <string-array name="year_array">
-        <item>2016</item>
-        <item>2017</item>
-    </string-array>
-
     <string name="title_activity_home">Home</string>
     <string name="title_activity_announcement">Announcement</string>
     <string name="title_activity_graph">Graph</string>

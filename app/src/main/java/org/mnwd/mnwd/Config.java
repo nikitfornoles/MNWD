@@ -22,6 +22,7 @@ public class Config {
     public static final String URL_GETALLLOGINOPTIONS = http + IP + "/mnwd_/mobile_getallloginoptions.php";
     public static final String URL_EDITPASSWORD = http + IP + "/mnwd_/mobile_editpassword.php";
     public static final String URL_GETLATESTBILL = http + IP + "/mnwd_/mobile_getlatestbill.php";
+    public static final String URL_GETLATESTBILLINGYEAR = http + IP + "/mnwd_/mobile_getlatestbillingyear.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";

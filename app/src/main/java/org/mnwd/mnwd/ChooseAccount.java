@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChooseAccount extends AppCompatActivity {
@@ -64,7 +60,6 @@ public class ChooseAccount extends AppCompatActivity {
     //content
     private void showLoginAccountOptions(){
         JSONObject jsonObject = null;
-        ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
         try {
             jsonObject = new JSONObject(JSON_STRING);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
@@ -90,7 +85,6 @@ public class ChooseAccount extends AppCompatActivity {
 
     private void getJSON () {
         class GetJSON extends AsyncTask<Void,Void,String> {
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();

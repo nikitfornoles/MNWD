@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -20,13 +24,17 @@ public class Registration2 extends AppCompatActivity {
     private EditText editBillAmount;
     private Button btnNext;
 
-    private String result;
+    private String result, resultYear[];
     private String month, day, year, monthno;
     private String billingdate, billamount;
 
+    //content
+    private String JSON_STRING;
+    //
+
     //SESSION
     private String session_accountid;
-    private SharedPreferences sp;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +46,6 @@ public class Registration2 extends AppCompatActivity {
         spinnerDay = (Spinner) findViewById(R.id.idSpinnerDay);
         spinnerYear = (Spinner) findViewById(R.id.idSpinnerYear);
 
-        sp = getSharedPreferences(Config.FILENAME_SESSION, Context.MODE_PRIVATE);
-
         btnNext = (Button) findViewById(R.id.idBtnNextReg2);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +53,75 @@ public class Registration2 extends AppCompatActivity {
                 gotoReg3();
             }
         });
+
+        //SESSION
+        sharedPreferences = getSharedPreferences(Config.FILENAME_SESSION, Context.MODE_PRIVATE);
+
+        //content
+        getJSON();
     }
+
+    //content
+    private void showYear () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_STRING);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            resultYear = new String [result.length()];
+            for(int i = 0; i < result.length(); i++){
+                JSONObject jo = result.getJSONObject(i);
+                String yyyy = jo.getString(Config.TAG_READING_BILLINGYEAR);
+                resultYear[i] = yyyy;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter<String> arrayAdapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, resultYear);
+        spinnerYear = (Spinner) findViewById (R.id.idSpinnerYear);
+        spinnerYear.setAdapter(arrayAdapterYear);
+    }
+
+    private void getJSON () {
+        class GetJSON extends AsyncTask<Void,Void,String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_STRING = s.replaceAll(conn_success, "");
+                    showYear();
+                }
+                else {
+                    Toast.makeText (Registration2.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GETLATESTBILLINGYEAR, parameter);
+                return s;
+            }
+        }
+        GetJSON gj = new GetJSON();
+        gj.execute();
+    }
+    //
 
     private void gotoReg3 () {
         month = String.valueOf(spinnerMonth.getSelectedItem());
@@ -94,7 +168,7 @@ public class Registration2 extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... voids) {
                 //RETRIEVE SESSION DATA
-                session_accountid = sp.getString(Config.SESSION_ACCOUNTID, null);
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
 
                 //argument for the php script
                 HashMap<String,String> params = new HashMap<> ();
