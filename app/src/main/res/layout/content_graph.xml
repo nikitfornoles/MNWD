@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,13 +31,13 @@
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/idGraphBillAmount"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="400dip"
             android:visibility="gone"/>
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/idGraphCubicMeterUsed"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="400dip"
             android:visibility="gone"/>
     </LinearLayout>

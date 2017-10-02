@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -226,6 +227,31 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
             graph1.addSeries(series1);
             graph2.addSeries(series2);
 
+            graph1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value, isValueX);
+                    } else {
+                        // show currency for y values
+                        return "P " + super.formatLabel(value, isValueX);
+                    }
+                }
+            });
+
+            graph2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value, isValueX);
+                    } else {
+                        // show currency for y values
+                        return super.formatLabel(value, isValueX) + " CuM";
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
