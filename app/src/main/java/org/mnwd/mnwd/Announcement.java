@@ -32,7 +32,6 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Toolbar toolbar = null;
-
     private FloatingActionButton fab;
 
     //content
@@ -40,8 +39,8 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private String JSON_STRING;
 
-    private String notif1, notif2, notif3;
-    //
+    //notification
+    private String notif1, notif2, notif3, mixed;
 
     //SESSION
     private String session_accountid;
@@ -61,7 +60,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), Notification.class);
-                String mixed = notif1 + "~" + notif2 + "~" + notif3;
+                mixed = notif1 + "~" + notif2 + "~" + notif3;
                 startIntent.putExtra("mixed", mixed);
                 startActivity(startIntent);
             }
@@ -88,9 +87,11 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         getJSON();
         //
 
+        //notification
         checkNotification ();
     }
 
+    //notification
     private void showNotificationIcon () {
         JSONObject jsonObject = null;
         try {
@@ -152,6 +153,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         CheckNotification cn = new CheckNotification();
         cn.execute();
     }
+    //
 
     //content
     private void showAnnouncements(){

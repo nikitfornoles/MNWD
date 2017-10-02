@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +28,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Toolbar toolbar = null;
+    private FloatingActionButton fab;
 
     private String billingmonth, billingyear, billingdate, previous_reading, present_reading, consumption;
     private String billamount, duedate, disconnection_date, refno, previous_billingdate;
@@ -41,8 +39,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     //content
     private String JSON_STRING;
 
+    //notification
+    private String notif1, notif2, notif3, mixed;
+
     //SESSION
     private String session_accountid;
+    private String session_userid;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -52,47 +54,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Bottom Sheet
-        View bottomSheet = findViewById(R.id.design_bottom_sheet);
-        final BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback(){
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        Log.i("BottomSheetCallback", "BottomSheetBehavior.STATE_DRAGGING");
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        Log.i("BottomSheetCallback", "BottomSheetBehavior.STATE_SETTLING");
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED:
-                        Log.i("BottomSheetCallback", "BottomSheetBehavior.STATE_EXPANDED");
-                        break;
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        Log.i("BottomSheetCallback", "BottomSheetBehavior.STATE_COLLAPSED");
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        Log.i("BottomSheetCallback", "BottomSheetBehavior.STATE_HIDDEN");
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.i("BottomSheetCallback", "slideOffset: " + slideOffset);
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (behavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-                else {
-                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }
+                Intent startIntent = new Intent(getApplicationContext(), Notification.class);
+                mixed = notif1 + "~" + notif2 + "~" + notif3;
+                startIntent.putExtra("mixed", mixed);
+                startActivity(startIntent);
             }
         });
 
@@ -118,7 +88,74 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         txtBillWithPenalty = (TextView) findViewById(R.id.idTxtBillWithPenalty);
 
         getJSON();
+
+        //notification
+        checkNotification ();
     }
+
+    //notification
+    private void showNotificationIcon () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_STRING);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            JSONObject jo = result.getJSONObject(0);
+            notif1 = jo.getString("notif1");
+            notif2 = jo.getString("notif2");
+            notif3 = jo.getString("notif3");
+
+            if (notif1 != "-1" || notif2 != "-1" || notif3 != "-1") {
+                fab.setVisibility(View.VISIBLE);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkNotification () {
+        class CheckNotification extends AsyncTask<Void,Void,String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_STRING = s.replaceAll(conn_success, "");
+                    showNotificationIcon();
+                }
+                else {
+                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+                session_userid = sharedPreferences.getString(Config.SESSION_USERID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                parameter.put(Config.KEY_CON_USERID, session_userid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_CHECKNOTIFICATION, parameter);
+                return s;
+            }
+        }
+        CheckNotification cn = new CheckNotification();
+        cn.execute();
+    }
+    //
 
     private void showCurrentBill () {
         JSONObject jsonObject = null;

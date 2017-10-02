@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -27,8 +30,9 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private Toolbar toolbar = null;
+    private FloatingActionButton fab;
 
-    private String session_firstname, session_lastname, session_email, session_userid;
+    private String session_firstname, session_lastname, session_email;
     private String password_curr, password_new, password_confirm;
     private String name, result;
 
@@ -36,7 +40,15 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
     private EditText editCurrPassword, editNewPassword, editConfirmPassword;
     private Button btnSubmit;
 
+    //content
+    private String JSON_STRING;
+
+    //notification
+    private String notif1, notif2, notif3, mixed;
+
     //SESSION
+    private String session_accountid;
+    private String session_userid;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -46,12 +58,15 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent startIntent = new Intent(getApplicationContext(), Notification.class);
+                mixed = notif1 + "~" + notif2 + "~" + notif3;
+                startIntent.putExtra("mixed", mixed);
+                startActivity(startIntent);
             }
         });
 
@@ -94,7 +109,74 @@ public class Profile extends AppCompatActivity implements NavigationView.OnNavig
                     }
                 }
         );
+
+        //notification
+        checkNotification ();
     }
+
+    //notification
+    private void showNotificationIcon () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_STRING);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            JSONObject jo = result.getJSONObject(0);
+            notif1 = jo.getString("notif1");
+            notif2 = jo.getString("notif2");
+            notif3 = jo.getString("notif3");
+
+            if (notif1 != "-1" || notif2 != "-1" || notif3 != "-1") {
+                fab.setVisibility(View.VISIBLE);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkNotification () {
+        class CheckNotification extends AsyncTask<Void,Void,String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_STRING = s.replaceAll(conn_success, "");
+                    showNotificationIcon();
+                }
+                else {
+                    Toast.makeText (Profile.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+                session_userid = sharedPreferences.getString(Config.SESSION_USERID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                parameter.put(Config.KEY_CON_USERID, session_userid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_CHECKNOTIFICATION, parameter);
+                return s;
+            }
+        }
+        CheckNotification cn = new CheckNotification();
+        cn.execute();
+    }
+    //
 
     private void editPassword () {
         password_curr = editCurrPassword.getText().toString().trim();
