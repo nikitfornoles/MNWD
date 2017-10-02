@@ -33,13 +33,19 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Toolbar toolbar = null;
 
+    private FloatingActionButton fab;
+
     //content
     private TextView txtZero;
     private ListView listView;
     private String JSON_STRING;
+
+    private String notif1, notif2, notif3;
     //
 
     //SESSION
+    private String session_accountid;
+    private String session_userid;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -49,11 +55,14 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), Notification.class);
+                String mixed = notif1 + "~" + notif2 + "~" + notif3;
+                startIntent.putExtra("mixed", mixed);
                 startActivity(startIntent);
             }
         });
@@ -78,6 +87,70 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         listView = (ListView) findViewById(R.id.listView_announcement);
         getJSON();
         //
+
+        checkNotification ();
+    }
+
+    private void showNotificationIcon () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_STRING);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            JSONObject jo = result.getJSONObject(0);
+            notif1 = jo.getString("notif1");
+            notif2 = jo.getString("notif2");
+            notif3 = jo.getString("notif3");
+
+            if (notif1 != "-1" || notif2 != "-1" || notif3 != "-1") {
+                fab.setVisibility(View.VISIBLE);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkNotification () {
+        class CheckNotification extends AsyncTask<Void,Void,String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_STRING = s.replaceAll(conn_success, "");
+                    showNotificationIcon();
+                }
+                else {
+                    Toast.makeText (Announcement.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+                session_userid = sharedPreferences.getString(Config.SESSION_USERID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                parameter.put(Config.KEY_CON_USERID, session_userid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_CHECKNOTIFICATION, parameter);
+                return s;
+            }
+        }
+        CheckNotification cn = new CheckNotification();
+        cn.execute();
     }
 
     //content
