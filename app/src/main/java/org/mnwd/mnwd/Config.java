@@ -24,6 +24,7 @@ public class Config {
     public static final String URL_GETLATESTBILL = http + IP + "/mnwd_/mobile_getlatestbill.php";
     public static final String URL_GETLATESTBILLINGYEAR = http + IP + "/mnwd_/mobile_getlatestbillingyear.php";
     public static final String URL_CHECKNOTIFICATION = http + IP + "/mnwd_/mobile_notification_manager.php";
+    public static final String URL_GETBILLPREDICTION = http + IP + "/mnwd_/mobile_billprediction.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";
