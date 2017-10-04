@@ -38,6 +38,9 @@ public class Notification extends AppCompatActivity {
         if (notif1.equals("-1")) {
             txtNotif1.setVisibility(View.GONE);
         }
+        else {
+            txtNotif1.setText("You have " + notif1 + " non-activated account/s. Kindly activate it by choosing 'Activate Account' in the Menu.");
+        }
 
         if (notif2.equals("-1")) {
             txtNotif2.setVisibility(View.GONE);
