@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +29,9 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
     private NavigationView navigationView;
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
+
+    private TextView txtNextMonth, txtPredictedUsage, txtPredictedBill;
+    private HashMap <String, String> hmapMonth;
 
     //content
     private String JSON_STRING;
@@ -73,6 +77,15 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
+
+        txtNextMonth = (TextView) findViewById(R.id.idTxtNextMonth);
+        txtPredictedUsage = (TextView) findViewById(R.id.idTxtPredictedUsage);
+        txtPredictedBill = (TextView) findViewById(R.id.idTxtPredictedBill);
+
+        //HashMap
+        setHashMapValues();
+
+        getJSON();
 
         //notification
         checkNotification ();
@@ -141,6 +154,76 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
         cn.execute();
     }
     //
+
+    private void setHashMapValues() {
+        hmapMonth = new HashMap<>();
+        hmapMonth.put("01", "January");
+        hmapMonth.put("02", "February");
+        hmapMonth.put("03", "March");
+        hmapMonth.put("04", "April");
+        hmapMonth.put("05", "May");
+        hmapMonth.put("06", "June");
+        hmapMonth.put("07", "July");
+        hmapMonth.put("08", "August");
+        hmapMonth.put("09", "September");
+        hmapMonth.put("10", "October");
+        hmapMonth.put("11", "November");
+        hmapMonth.put("12", "December");
+    }
+
+    private void getJSON () {
+        class GetJSON extends AsyncTask<Void,Void,String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    String info = s.replaceAll(conn_success, "");
+                    String [] infobits = info.split("~");
+                    String latestbillingdate = infobits[0];
+                    String predictedUsage = infobits[1];
+                    String predictedBill = infobits[2];
+
+                    String [] billingdate = latestbillingdate.split("-");
+                    String year = billingdate[0];
+                    String monthno = billingdate [1];
+                    int nextmonthno = Integer.parseInt(monthno) + 1;
+                    String nextmonthStr = Integer.toString(nextmonthno);
+                    String month = hmapMonth.get(nextmonthStr);
+
+                    txtNextMonth.setText("For the Month of " + month + " " + year);
+                    txtPredictedUsage.setText(predictedUsage + " cubic meters");
+                    txtPredictedBill.setText("P " + predictedBill);
+                }
+                else {
+                    Toast.makeText (BillPrediction.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GETBILLPREDICTION, parameter);
+                return s;
+            }
+        }
+        GetJSON gj = new GetJSON();
+        gj.execute();
+    }
 
     @Override
     public void onBackPressed() {
