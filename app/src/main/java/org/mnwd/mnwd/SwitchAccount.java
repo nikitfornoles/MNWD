@@ -34,7 +34,7 @@ public class SwitchAccount extends AppCompatActivity implements NavigationView.O
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
-    private TextView txtSwitchInfo1, txtSwitchInfo3;
+    private TextView txtSwitchInfo1, txtSwitchInfo3, lblAccountNo;
     private Spinner spinnerSwitchAccountNo;
     private Button btnSwitchAccount;
 
@@ -91,6 +91,7 @@ public class SwitchAccount extends AppCompatActivity implements NavigationView.O
         txtSwitchInfo1 = (TextView) findViewById(R.id.idTxtSwitchInfo1);
         txtSwitchInfo3 = (TextView) findViewById(R.id.idTxtSwitchInfo3);
         spinnerSwitchAccountNo = (Spinner) findViewById(R.id.idSpinnerSwitchAccountNo);
+        lblAccountNo = (TextView) findViewById(R.id.idLblAccountNo);
 
         btnSwitchAccount = (Button) findViewById(R.id.idBtnSwitchAccount);
         btnSwitchAccount.setOnClickListener(
@@ -225,6 +226,7 @@ public class SwitchAccount extends AppCompatActivity implements NavigationView.O
                         btnSwitchAccount.setVisibility(View.VISIBLE);
                         showAllActivatedAccounts();
                         txtSwitchInfo3.setVisibility(View.GONE);
+                        lblAccountNo.setVisibility(View.VISIBLE);
                     }
                 }
                 else {

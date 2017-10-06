@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +35,10 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
-    private TextView txtActivateInfo;
+    private TextView txtActivateInfo, txtAcctNo;
     private Spinner spinnerAccountNo;
     private Button btnActivateAccount;
+    private ProgressBar progressBar;
 
     private String accountno, result;
     private String [] arrAccountNo;
@@ -51,6 +53,7 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
     //SESSION
     private String session_accountid;
     private String session_userid;
+    private String session_email;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -87,8 +90,10 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
 
+        txtAcctNo = (TextView) findViewById(R.id.idTxtAcctNo);
         txtActivateInfo = (TextView) findViewById(R.id.idTxtActivateInfo2);
         spinnerAccountNo = (Spinner) findViewById(R.id.idSpinnerActivateAccount);
+        progressBar = (ProgressBar) findViewById(R.id.idProgressBar);
 
         btnActivateAccount = (Button) findViewById(R.id.idBtnActivateAccount);
         btnActivateAccount.setOnClickListener(
@@ -214,6 +219,7 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
                         txtActivateInfo.setText(JSON_STRING.replaceAll(account404, ""));
                     }
                     else {
+                        txtAcctNo.setVisibility(View.VISIBLE);
                         spinnerAccountNo.setVisibility(View.VISIBLE);
                         btnActivateAccount.setVisibility(View.VISIBLE);
                         showAllInactiveAccounts();
@@ -246,27 +252,30 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
     private void activateAccount() {
         accountno = String.valueOf(spinnerAccountNo.getSelectedItem());
 
-        class ActivateAccountNo extends AsyncTask <Void, Void, String> {
+        class ActivateAccountNo extends AsyncTask<Void, Void, String> {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
 
                 String conn_success = "connection success~";
                 if (s.contains(conn_success)) {
                     String activate_status = s.replaceAll(conn_success, "");
-                    String activate_fail = "Error";
-                    if (activate_status.contains(activate_fail)) {
-                        Toast.makeText (ActivateAccount.this, activate_status, Toast.LENGTH_LONG).show();
+                    String activate_success = "Activation code successfully set.";
+                    if (activate_status.contains(activate_success)) {
+                        Toast.makeText (ActivateAccount.this, "Activation code successfully sent", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), ActivationCode.class);
+                        intent.putExtra(Config.ACCOUNT_NO, accountno);
+                        startActivity(intent);
                     }
                     else {
                         Toast.makeText (ActivateAccount.this, activate_status, Toast.LENGTH_LONG).show();
-                        Intent startIntent = new Intent(getApplicationContext(), ActivateAccount.class);
-                        startActivity(startIntent);
                     }
                 }
                 else {
@@ -276,11 +285,14 @@ public class ActivateAccount extends AppCompatActivity implements NavigationView
 
             @Override
             protected String doInBackground(Void... voids) {
+                session_email = sharedPreferences.getString(Config.SESSION_EMAIL, null);
+
                 HashMap<String,String> params = new HashMap<> ();
                 params.put(Config.KEY_CON_ACCOUNTNO, accountno);
+                params.put(Config.KEY_CON_EMAIL, session_email);
 
                 RequestHandler rh = new RequestHandler();
-                result = rh.sendPostRequest(Config.URL_ACTIVATEACCOUNT, params);
+                result = rh.sendPostRequest(Config.URL_SENDACTIVATIONCODE, params);
                 return result;
             }
         }
