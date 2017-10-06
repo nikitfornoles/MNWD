@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +13,7 @@
         android:text="Choose Account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="136dp"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -22,8 +23,7 @@
         android:id="@+id/idSpinnerLoginAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/idTxtChooseAccount"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp" />
 
     <Button
@@ -31,11 +31,10 @@
         android:text="Continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/idSpinnerLoginAccount"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:padding="10dp"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:background="@color/colorPrimary" />
-</RelativeLayout>
+</LinearLayout>

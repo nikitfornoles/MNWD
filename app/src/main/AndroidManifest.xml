@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.mnwd.mnwd">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -68,13 +66,16 @@
             android:label="@string/title_activity_switch_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ActivateAccount"
+            android:name=".GetActivationCode"
             android:label="@string/title_activity_activate_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ChooseAccount" />
         <activity
             android:name=".Notification"
-            android:label="Notification"/>
+            android:label="Notification" />
+        <activity
+            android:name=".ActivateAccount"
+            android:label="Account Activation" />
     </application>
 
 </manifest>

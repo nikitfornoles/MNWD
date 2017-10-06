@@ -44,7 +44,7 @@ public class ReusableFunctions extends Activity {
             intent = new Intent(context, SwitchAccount.class);
         }
         else if (id == R.id.nav_activate_account) {
-            intent = new Intent(context, ActivateAccount.class);
+            intent = new Intent(context, GetActivationCode.class);
         }
         else if (id == R.id.nav_logout) {
             //reset session
