@@ -5,16 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_margin="16dp"
     tools:context="org.mnwd.mnwd.Registration2">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
@@ -28,14 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif"
             android:text="To continue, fill out the following form to let us know that you own this account. After filling out the form, you will be redirected to your email address for the confirmation."
             android:textColor="@android:color/holo_blue_dark" />
 
         <TextView
             android:text="Bill Date:"
             android:layout_marginTop="40dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -61,14 +57,14 @@
                 android:layout_height="wrap_content"
                 android:entries="@array/day_array"
                 android:id="@+id/idSpinnerDay"
-                android:layout_weight="15">
+                android:layout_weight="5">
             </Spinner>
 
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/idSpinnerYear"
-                android:layout_weight="40">
+                android:layout_weight="50">
             </Spinner>
         </LinearLayout>
 
@@ -77,13 +73,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="#333333"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/idEditReferenceNo"
                 android:layout_width="match_parent"
@@ -92,7 +87,6 @@
                 android:maxLength="10"
                 android:maxLines="1"
                 android:gravity="center"/>
-
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -100,7 +94,7 @@
             android:text="Next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
 </ScrollView>

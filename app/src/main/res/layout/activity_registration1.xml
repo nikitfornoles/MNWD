@@ -1,118 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     tools:context="org.mnwd.mnwd.Registration1">
 
-    <TextView
-        android:id="@+id/idTxtStep1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:text="Step 1: Validation"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="25sp" />
-
-    <TextView
-        android:text="Enter Account Number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#333333"
-        android:paddingTop="30dp"/>
-
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:weightSum="100">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="30">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/idEditAccountNo1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions|number"
-                android:maxLength="3"
-                android:background="@color/colorBlue1"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:maxLines="1"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-        <TextView
-            android:text="_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_weight="5"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="30">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/idEditAccountNo2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions|number"
-                android:maxLength="2"
-                android:background="@color/colorBlue1"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
-
-        <TextView
-            android:text="_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_weight="5"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="30">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/idEditAccountNo3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions|number"
-                android:maxLength="3"
-                android:background="@color/colorBlue1"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/idTxtStep1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:text="Step 1: Validation"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="25sp" />
+
+        <TextView
+            android:text="Enter Account Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:paddingTop="30dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:weightSum="100">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/idEditAccountNo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions|number"
+                    android:maxLength="3"
+                    android:background="@color/colorBlue1"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:maxLines="1"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:text="_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_weight="5"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/idEditAccountNo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions|number"
+                    android:maxLength="2"
+                    android:background="@color/colorBlue1"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:text="_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_weight="5"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/idEditAccountNo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions|number"
+                    android:maxLength="3"
+                    android:background="@color/colorBlue1"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
         <Button
             android:id="@+id/idBtnNext"
             android:text="Next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-</LinearLayout>
+            android:layout_gravity="center" />
+    </LinearLayout>
+</ScrollView>

@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.BillPrediction"
     tools:showIn="@layout/app_bar_bill_prediction">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/idTxtNextMonth"
             android:layout_width="match_parent"
@@ -28,19 +26,15 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:layout_margin="30dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"/>
-    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
         <TextView
             android:text="Predicted Usage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"/>
+
         <TextView
             android:id="@+id/idTxtPredictedUsage"
             android:layout_width="match_parent"
@@ -49,12 +43,14 @@
             android:textSize="40sp"
             android:textStyle="bold"
             android:layout_marginBottom="10dp"/>
+
         <TextView
             android:text="Predicted Bill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"/>
+
         <TextView
             android:id="@+id/idTxtPredictedBill"
             android:layout_width="match_parent"
@@ -64,5 +60,4 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp"/>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

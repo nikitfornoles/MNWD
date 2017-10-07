@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.GetActivationCode"
     tools:showIn="@layout/app_bar_get_activation_code">
 
-    <TextView
-        android:id="@+id/idTxtActivateInfo1"
-        android:text="You can only activate accounts that are registered under your name."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/holo_blue_dark" />
-
-    <TextView
-        android:id="@+id/idTxtAcctNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Account Number"
-        android:textSize="16sp"
-        android:textColor="@android:color/holo_blue_dark"
-        android:layout_marginTop="50dp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
-
-    <Spinner
-        android:id="@+id/idSpinnerActivateAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:visibility="gone">
-    </Spinner>
-
-    <Button
-        android:id="@+id/idBtnGetActivationCode"
-        android:text="Get Activation Code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/idTxtActivateInfo2"
-        android:text=""
-        android:textSize="16sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center" />
-
-    <ProgressBar
-        android:id="@+id/idProgressBar"
-        style="?android:attr/progressBarStyle"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/idTxtActivateInfo1"
+            android:text="You can only activate accounts that are registered under your name."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/holo_blue_dark" />
+
+        <TextView
+            android:id="@+id/idTxtAcctNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Account Number"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/idSpinnerActivateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
+        </Spinner>
+
+        <Button
+            android:id="@+id/idBtnGetActivationCode"
+            android:text="Get Activation Code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/idTxtActivateInfo2"
+            android:text=""
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <ProgressBar
+            android:id="@+id/idProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+</ScrollView>

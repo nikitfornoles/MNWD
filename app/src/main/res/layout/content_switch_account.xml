@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.SwitchAccount"
     tools:showIn="@layout/app_bar_switch_account">
 
-    <TextView
-        android:id="@+id/idTxtSwitchInfo1"
-        android:text="The account numbers provided in the dropdown button are the activated accounts that are registered under your name."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/holo_blue_dark"
-        android:visibility="gone"
-        />
-
-    <TextView
-        android:id="@+id/idTxtSwitchInfo2"
-        android:text="If you have other non-activated account/s that you want to switch to, kindly activate it first by choosing the 'Activate Account' in the navigation drawer."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/holo_blue_dark"/>
-
-    <TextView
-        android:id="@+id/idLblAccountNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Account Number"
-        android:textSize="16sp"
-        android:textColor="@android:color/holo_blue_dark"
-        android:layout_marginTop="50dp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:layout_gravity="center" />
-
-    <Spinner
-        android:id="@+id/idSpinnerSwitchAccountNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_margin="20dp">
-    </Spinner>
-
-    <Button
-        android:id="@+id/idBtnSwitchAccount"
-        android:text="Switch Account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:visibility="gone"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"/>
-
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/idTxtSwitchInfo1"
+            android:text="The account numbers provided in the dropdown button are the activated accounts that are registered under your name."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/holo_blue_dark"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/idTxtSwitchInfo2"
+            android:text="If you have other non-activated account/s that you want to switch to, kindly activate it first by choosing the 'Activate Account' in the navigation drawer."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/holo_blue_dark"/>
+
+        <TextView
+            android:id="@+id/idLblAccountNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Account Number"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
+        <Spinner
+            android:id="@+id/idSpinnerSwitchAccountNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_margin="20dp">
+        </Spinner>
+
+        <Button
+            android:id="@+id/idBtnSwitchAccount"
+            android:text="Switch Account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"/>
+
         <TextView
             android:id="@+id/idTxtSwitchInfo3"
             android:text=""
@@ -77,11 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/activity_horizontal_margin"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-</LinearLayout>
-
-
-
-
+            android:layout_gravity="center" />
+    </LinearLayout>
+</ScrollView>

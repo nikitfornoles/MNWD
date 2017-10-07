@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +46,12 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
+    //Zoom
+    private Matrix matrix = new Matrix();
+    private float scale = 1f;
+    private ScaleGestureDetector scaleGestureDetector;
+
+    //refresh
     private SwipeRefreshLayout swipeRefreshLayout;
 
     //announcement
@@ -73,6 +82,8 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_announcement);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.idSwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.swipe1, R.color.swipe2, R.color.swipe3);
@@ -145,6 +156,23 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
         //notification
         checkNotification ();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        scaleGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    public class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scale *= detector.getScaleFactor();
+            scale = Math.max(0.1f, Math.min(scale, 5.0f));
+            matrix.setScale(scale, scale);
+            imageView.setImageMatrix(matrix);
+            return true;
+        }
     }
 
     //notification

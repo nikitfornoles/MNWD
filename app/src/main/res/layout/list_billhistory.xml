@@ -32,5 +32,4 @@
         android:textAlignment="center"
         android:layout_weight="33"
         android:padding="10dp"/>
-
 </LinearLayout>

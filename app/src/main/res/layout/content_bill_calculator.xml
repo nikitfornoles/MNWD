@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.BillCalculator"
     tools:showIn="@layout/app_bar_bill_calculator">
@@ -16,18 +13,16 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/Row1"
-            android:padding="10dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:padding="5dp"
             android:background="#cfd8dc">
 
             <TextView
-                android:id="@+id/idTxtAcctClass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Account Classification:"
@@ -37,18 +32,16 @@
             <Spinner
                 android:id="@+id/idSpinnerAcctClass"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:foregroundTint="@color/colorPrimary">
+                android:layout_height="wrap_content">
             </Spinner>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Row2"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="#cfd8dc"
-            android:orientation="horizontal"
             android:padding="10dp"
             android:weightSum="1">
 
@@ -57,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:layout_gravity="bottom"
                 android:text="Cubic Meter Used:"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -68,7 +62,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/idEditCuM"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:inputType="number"
                     android:textAlignment="textEnd"
@@ -78,18 +72,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Row3"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:background="#cfd8dc"
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/idTxtMeterSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Meter Size:"
@@ -113,12 +104,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Row4"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:background="#cfd8dc" >
 
             <TextView
@@ -131,9 +121,9 @@
 
             <RadioGroup
                 android:id="@+id/idRadioType"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:weightSum="1">
 
                 <RadioButton
@@ -154,62 +144,51 @@
                     android:textStyle="bold"
                     android:layout_weight="0.5"/>
             </RadioGroup>
+
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_marginTop="20dp"
-                android:id="@+id/idBtnCalculate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calculate"
-                android:background="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
-                android:layout_centerHorizontal="true"
-                android:textSize="13sp"
-                android:padding="10dp"/>
-        </RelativeLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/idBtnCalculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculate"
+            android:background="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:textSize="13sp"
+            android:padding="10dp"/>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:id="@+id/Row5"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:background="#9ea7aa">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/idTotalBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Bill: "
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:textColor="#263238"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
-                <TextView
-                    android:id="@+id/idTotalBill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total Bill: "
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:textColor="#263238"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"/>
-
-                <TextView
-                    android:id="@+id/idTxtTotalBill"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="#ffffff"
-                    android:textColorHint="#000"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/idTotalBill"/>
-            </RelativeLayout>
-
+            <TextView
+                android:id="@+id/idTxtTotalBill"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:background="#ffffff"
+                android:textColorHint="#000"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
