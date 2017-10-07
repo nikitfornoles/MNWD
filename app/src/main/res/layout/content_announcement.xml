@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,20 +16,47 @@
 
     <TextView
         android:id="@+id/idTxtAnnouncementDefault"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="There are currently no announcements."
-        android:layout_centerHorizontal="true"
-        android:paddingTop="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
         android:visibility="gone"
         android:textColor="@android:color/holo_blue_dark"/>
 
-    <ListView
-        android:id="@+id/listView_announcement"
+    <TextView
+        android:id="@+id/idTxtDate"
+        android:textAlignment="center"
+        android:background="#0086c3"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:layout_gravity="center" />
 
-</RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/imageView" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous"
+            android:layout_weight="1"
+            android:id="@+id/idBtnPrevA" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_weight="1"
+            android:id="@+id/idBtnNextA" />
+    </LinearLayout>
+</LinearLayout>

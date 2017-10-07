@@ -1,8 +1,11 @@
 package org.mnwd.mnwd;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,9 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 public class Announcement extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,9 +41,18 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
+    //announcement
+    private String imagesJSON;
+    private static final String IMAGE_URL = "url";
+    private JSONArray arrayImages= null;
+    private int TRACK = 0;
+    private TextView txtDate;
+    private ImageView imageView;
+    private Button btnMoveNext;
+    private Button btnMovePrevious;
+
     //content
     private TextView txtZero;
-    private ListView listView;
     private String JSON_STRING;
 
     //notification
@@ -83,9 +99,28 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
         //ADD
         txtZero = (TextView) findViewById(R.id.idTxtAnnouncementDefault);
-        listView = (ListView) findViewById(R.id.listView_announcement);
-        getJSON();
-        //
+        txtDate = (TextView) findViewById(R.id.idTxtDate);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        btnMoveNext = (Button) findViewById(R.id.idBtnNextA);
+        btnMovePrevious = (Button) findViewById(R.id.idBtnPrevA);
+        btnMoveNext.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        moveNext();
+                    }
+                }
+        );
+        btnMovePrevious.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        movePrevious();
+                    }
+                }
+        );
+
+        getAllImages();
 
         //notification
         checkNotification ();
@@ -156,54 +191,56 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
     //
 
     //content
-    private void showAnnouncements(){
-        JSONObject jsonObject = null;
-        ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
-        int length = 0;
+    private void extractJSON(){
         try {
-            jsonObject = new JSONObject(JSON_STRING);
-            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
-            length = result.length();
+            JSONObject jsonObject = new JSONObject(imagesJSON);
+            arrayImages = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
 
-            if (length == 0) {
+            if (arrayImages.length() == 0) {
                 txtZero.setVisibility(View.VISIBLE);
+                txtDate.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
             }
-            else {
-                for(int i = 0; i<result.length(); i++){
-                    JSONObject jo = result.getJSONObject(i);
-                    String announcementid = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID);
-                    String announcement = jo.getString(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT);
-                    String date = jo.getString(Config.TAG_ANNOUNCEMENT_DATE);
-
-                    HashMap<String,String> announcements = new HashMap<>();
-                    announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENTID, announcementid);
-                    announcements.put(Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT, announcement);
-                    announcements.put(Config.TAG_ANNOUNCEMENT_DATE, date);
-                    list.add(announcements);
-                }
-                listView.setVisibility(View.VISIBLE);
+            if (arrayImages.length() < 2) {
+                btnMovePrevious.setVisibility(View.GONE);
+                btnMoveNext.setVisibility(View.GONE);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        if (length > 0) {
-            ListAdapter adapter = new SimpleAdapter(
-                    Announcement.this,
-                    list,
-                    R.layout.list_announcement,
-                    new String[]{Config.TAG_ANNOUNCEMENT_DATE, Config.TAG_ANNOUNCEMENT_ANNOUNCEMENT},
-                    new int[]{R.id.announcement_date, R.id.announcement_announcement}
-            );
-
-            listView.setAdapter(adapter);
+    private void showImage(){
+        try {
+            JSONObject jsonObject = arrayImages.getJSONObject(TRACK);
+            getImage(jsonObject.getString(IMAGE_URL));
+            String [] date = jsonObject.getString("date").split("-");
+            String [] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            String year = date [0];
+            int monthno = Integer.parseInt(date[1]);
+            int day = Integer.parseInt(date[2]);
+            txtDate.setText(month[monthno] + " " + day + ", " + year);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    private void getJSON(){
-        class GetJSON extends AsyncTask<Void,Void,String> {
+    private void moveNext(){
+        if(TRACK < arrayImages.length()){
+            TRACK++;
+            showImage();
+        }
+    }
 
+    private void movePrevious(){
+        if(TRACK>0){
+            TRACK--;
+            showImage();
+        }
+    }
+
+    private void getAllImages() {
+        class GetAllImages extends AsyncTask<String,Void,String>{
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -215,8 +252,10 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
                 String conn_success = "connection success~";
                 if (s.contains(conn_success)) {
-                    JSON_STRING = s.replaceAll(conn_success, "");
-                    showAnnouncements();
+                    s = s.replaceAll(conn_success, "");
+                    imagesJSON = s;
+                    extractJSON();
+                    showImage();
                 }
                 else {
                     Toast.makeText (Announcement.this, s, Toast.LENGTH_LONG).show();
@@ -224,14 +263,65 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            protected String doInBackground(Void... params) {
-                RequestHandler rh = new RequestHandler();
-                String s = rh.sendGetRequest(Config.URL_GETALLANNOUNCEMENTS);
-                return s;
+            protected String doInBackground(String... params) {
+                String uri = params[0];
+                BufferedReader bufferedReader = null;
+                try {
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    StringBuilder sb = new StringBuilder();
+
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String json;
+                    while((json = bufferedReader.readLine())!= null){
+                        sb.append(json+"\n");
+                    }
+
+                    return sb.toString().trim();
+
+                }catch(Exception e){
+                    return null;
+                }
             }
         }
-        GetJSON gj = new GetJSON();
-        gj.execute();
+        GetAllImages gai = new GetAllImages();
+        gai.execute(Config.URL_GETALLANNOUNCEMENTS);
+    }
+
+    private void getImage(String urlToImage){
+        class GetImage extends AsyncTask<String,Void,Bitmap>{
+            ProgressDialog loading;
+            @Override
+            protected Bitmap doInBackground(String... params) {
+                URL url = null;
+                Bitmap image = null;
+
+                String urlToImage = params[0];
+                try {
+                    url = new URL(urlToImage);
+                    image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return image;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+        GetImage gi = new GetImage();
+        gi.execute(urlToImage);
     }
     //
 
