@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -29,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class Graph extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +48,13 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
     private double x1, x2;
     private LineGraphSeries<DataPoint> series1, series2;
     private GraphView graph1, graph2;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    private HashMap <String, String> hmapMonth, hmap2;
+    private HashMap <Integer, String> hmap1;
+
+    //refresh
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     //content
     private String JSON_STRING;
@@ -64,6 +75,25 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //refresh
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.idSwipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.swipe1, R.color.swipe2, R.color.swipe3);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Intent startIntent = new Intent(getApplicationContext(), Graph.class);
+                        startActivity(startIntent);
+                    }
+                }, 1000);
+            }
+        });
+
+        //notif
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +126,10 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
         graph2 = (GraphView) findViewById(R.id.idGraphCubicMeterUsed);
         series1 = new LineGraphSeries<DataPoint>();
         series2 = new LineGraphSeries<DataPoint>();
+        //
+
+        //HashMap
+        setHashMapValues();
         //
 
         //content
@@ -191,31 +225,51 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
     }
     //
 
+
+    private void setHashMapValues() {
+        hmapMonth = new HashMap<>();
+        hmapMonth.put("01", "Jan");
+        hmapMonth.put("02", "Feb");
+        hmapMonth.put("03", "Mar");
+        hmapMonth.put("04", "Apr");
+        hmapMonth.put("05", "May");
+        hmapMonth.put("06", "Jun");
+        hmapMonth.put("07", "Jul");
+        hmapMonth.put("08", "Aug");
+        hmapMonth.put("09", "Sep");
+        hmapMonth.put("10", "Oct");
+        hmapMonth.put("11", "Nov");
+        hmapMonth.put("12", "Dec");
+    }
+
     //content
     private void getBillHistory(){
         JSONObject jsonObject = null;
+        hmap1 = new HashMap<>();
+        hmap2 = new HashMap<>();
         try {
             jsonObject = new JSONObject(JSON_STRING);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
 
             for(int i = 0; i<result.length(); i++){
                 JSONObject jo = result.getJSONObject(i);
-                String billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
+                String billingdateString = jo.getString(Config.TAG_READING_BILLINGDATE);
                 String consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
                 String billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
 
-                /*
-                String pattern = "yyyy-MM-dd";
-                DateFormat df = new SimpleDateFormat(pattern, Locale.ENGLISH);
-                try {
-                    Date date = df.parse(billingdate);
-                    System.out.println(date); // 2010-01-02
-                    x1 = date;
-                    x2 = date;
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                String infobits [] = billingdateString.split("-");
+                String yyyy = infobits [0];
+                String MM = infobits [1];
+                String dd = infobits [2];
+
+                hmap1.put(i, billingdateString);
+
+                String graphDateFormat = hmapMonth.get(MM) + yyyy;
+                if (i == 0) {
+                    Toast.makeText(this, MM, Toast.LENGTH_LONG).show();
                 }
-                */
+                hmap2.put(billingdateString, graphDateFormat);
+
                 x1 = i;
                 x2 = i;
                 y1 = Double.parseDouble(billamount);
@@ -227,12 +281,31 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
             graph1.addSeries(series1);
             graph2.addSeries(series2);
 
+            // activate horizontal zooming and scrolling
+            graph1.getViewport().setScalable(true);
+            graph2.getViewport().setScalable(true);
+
+            // activate horizontal scrolling
+            graph1.getViewport().setScrollable(true);
+            graph2.getViewport().setScrollable(true);
+
+            // activate horizontal and vertical zooming and scrolling
+            graph1.getViewport().setScalableY(true);
+            graph2.getViewport().setScalableY(true);
+
+            // activate vertical scrolling
+            graph1.getViewport().setScrollableY(true);
+            graph2.getViewport().setScrollableY(true);
+
+            graph1.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+
             graph1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
                 @Override
                 public String formatLabel(double value, boolean isValueX) {
                     if (isValueX) {
                         // show normal x values
-                        return super.formatLabel(value, isValueX);
+                        String billingdateStr = hmap1.get(value);
+                        return hmap2.get(billingdateStr);
                     } else {
                         // show currency for y values
                         return "P " + super.formatLabel(value, isValueX);
@@ -289,7 +362,7 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
                 parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
 
                 RequestHandler rh = new RequestHandler();
-                String s = rh.sendPostRequest(Config.URL_GETBILLHISTORY, parameter);
+                String s = rh.sendPostRequest(Config.URL_GRAPH, parameter);
                 return s;
             }
         }

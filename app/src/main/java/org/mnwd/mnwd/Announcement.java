@@ -85,6 +85,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
+        //refresh
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.idSwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.swipe1, R.color.swipe2, R.color.swipe3);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
@@ -102,6 +103,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //notif
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +160,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
         checkNotification ();
     }
 
+    //zoom
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
@@ -174,6 +177,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
             return true;
         }
     }
+    //
 
     //notification
     private void showNotificationIcon () {

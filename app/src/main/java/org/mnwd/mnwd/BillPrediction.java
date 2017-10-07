@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +35,9 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
     private TextView txtNextMonth, txtPredictedUsage, txtPredictedBill;
     private HashMap <String, String> hmapMonth;
 
+    //refresh
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     //content
     private String JSON_STRING;
 
@@ -51,6 +56,25 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //refresh
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.idSwipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.swipe1, R.color.swipe2, R.color.swipe3);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Intent startIntent = new Intent(getApplicationContext(), BillPrediction.class);
+                        startActivity(startIntent);
+                    }
+                }, 1000);
+            }
+        });
+
+        //notif
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {

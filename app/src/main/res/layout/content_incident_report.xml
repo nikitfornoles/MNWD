@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,81 +8,87 @@
     android:layout_margin="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.mnwd.mnwd.IncidentReport"
-    tools:showIn="@layout/app_bar_incident_report">
+    tools:showIn="@layout/app_bar_incident_report"
+    android:id="@+id/idSwipeRefreshLayout">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/idTxtType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="31dp"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="42dp"
-            android:text="Type"
-            android:textStyle="bold"
-            android:textSize="18dp" />
-
-        <RadioGroup
-            android:id="@+id/idRadioType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp">
-
-            <RadioButton
-                android:id="@+id/idRadioLeakage"
-                android:text="Leakage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:id="@+id/idRadioIllegalDisconnection"
-                android:text="Illegal Disconnection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:id="@+id/idRadioDefectiveMeter"
-                android:text="Defective Meter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:id="@+id/idRadioDirtyWater"
-                android:text="Dirty Water"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:id="@+id/idRadioOthers"
-                android:text="Others"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RadioGroup>
-
-        <TextView
-            android:text="Description"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/idEditDescription"
+
+            <TextView
+                android:id="@+id/idTxtType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="42dp"
+                android:text="Type"
+                android:textStyle="bold"
+                android:textSize="18dp" />
+
+            <RadioGroup
+                android:id="@+id/idRadioType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine" />
-        </android.support.design.widget.TextInputLayout>
+                android:padding="20dp">
 
-        <Button
-            android:id="@+id/idBtnReport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Report" />
-    </LinearLayout>
-</ScrollView>
+                <RadioButton
+                    android:id="@+id/idRadioLeakage"
+                    android:text="Leakage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/idRadioIllegalDisconnection"
+                    android:text="Illegal Disconnection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/idRadioDefectiveMeter"
+                    android:text="Defective Meter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/idRadioDirtyWater"
+                    android:text="Dirty Water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/idRadioOthers"
+                    android:text="Others"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+            <TextView
+                android:text="Description"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/idEditDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/idBtnReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Report" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
