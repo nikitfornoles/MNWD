@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#003c8f</color> <!-- #303F9F -->
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlue1">#0086c3</color>
+
+    <color name="swipe1">#c9286b</color>
+    <color name="swipe2">#d6b12f</color>
+    <color name="swipe3">#0086c3</color>
 </resources>
