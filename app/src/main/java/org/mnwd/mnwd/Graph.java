@@ -3,6 +3,7 @@ package org.mnwd.mnwd;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,17 +23,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,17 +45,12 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
+    //GRAPH
     private Spinner spinner;
     private int pos;
-    private double y1, y2;
-    //private Date x1, x2;
-    private double x1, x2;
-    private LineGraphSeries<DataPoint> series1, series2;
-    private GraphView graph1, graph2;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-    private HashMap <String, String> hmapMonth, hmap2;
-    private HashMap <Integer, String> hmap1;
+    private LineChart graph1, graph2;
+    private HashMap <String, String> hmapMonth;
+    private ArrayList<Entry> y1Values, y2Values;
 
     //refresh
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -122,10 +121,17 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
 
         //GRAPH
-        graph1 = (GraphView) findViewById(R.id.idGraphBillAmount);
-        graph2 = (GraphView) findViewById(R.id.idGraphCubicMeterUsed);
-        series1 = new LineGraphSeries<DataPoint>();
-        series2 = new LineGraphSeries<DataPoint>();
+        graph1 = (LineChart) findViewById(R.id.idGraphBillAmount);
+        graph2 = (LineChart) findViewById(R.id.idGraphCubicMeterUsed);
+
+        graph1.setDragEnabled(true);
+        graph1.setScaleEnabled(true);
+
+        graph2.setDragEnabled(true);
+        graph2.setScaleEnabled(true);
+
+        y1Values = new ArrayList<>();
+        y2Values = new ArrayList<>();
         //
 
         //HashMap
@@ -225,7 +231,6 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
     }
     //
 
-
     private void setHashMapValues() {
         hmapMonth = new HashMap<>();
         hmapMonth.put("01", "Jan");
@@ -243,13 +248,27 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     //content
+    public class MyAxisValueFormatter implements IAxisValueFormatter {
+        private String[] mValues;
+
+        public MyAxisValueFormatter(String[] values) {
+            this.mValues = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValues[(int) value];
+        }
+    }
+
     private void getBillHistory(){
         JSONObject jsonObject = null;
-        hmap1 = new HashMap<>();
-        hmap2 = new HashMap<>();
+        String [] dateString;
         try {
             jsonObject = new JSONObject(JSON_STRING);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+             dateString = new String[result.length()];
 
             for(int i = 0; i<result.length(); i++){
                 JSONObject jo = result.getJSONObject(i);
@@ -262,69 +281,49 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
                 String MM = infobits [1];
                 String dd = infobits [2];
 
-                hmap1.put(i, billingdateString);
+                y1Values.add(new Entry(i, Float.parseFloat(billamount)));
+                y2Values.add(new Entry(i, Float.parseFloat(consumption)));
+                dateString [i] = hmapMonth.get(MM) + yyyy;
 
-                String graphDateFormat = hmapMonth.get(MM) + yyyy;
-                if (i == 0) {
-                    Toast.makeText(this, MM, Toast.LENGTH_LONG).show();
-                }
-                hmap2.put(billingdateString, graphDateFormat);
-
-                x1 = i;
-                x2 = i;
-                y1 = Double.parseDouble(billamount);
-                y2 = Double.parseDouble(consumption);
-
-                series1.appendData(new DataPoint(x1, y1), true, result.length());
-                series2.appendData(new DataPoint(x2, y2), true, result.length());
             }
-            graph1.addSeries(series1);
-            graph2.addSeries(series2);
+            LineDataSet set1 = new LineDataSet(y1Values, "Data Set 1");
+            set1.setFillAlpha(110);
+            set1.setColor(Color.RED);
+            set1.setLineWidth(3f);
+            set1.setValueTextSize(10f);
+            set1.setValueTextColor(Color.BLUE);
 
-            // activate horizontal zooming and scrolling
-            graph1.getViewport().setScalable(true);
-            graph2.getViewport().setScalable(true);
+            ArrayList<ILineDataSet> dataSets1 = new ArrayList<>();
+            dataSets1.add(set1);
 
-            // activate horizontal scrolling
-            graph1.getViewport().setScrollable(true);
-            graph2.getViewport().setScrollable(true);
+            LineData data1 = new LineData(dataSets1);
+            graph1.setData(data1);
 
-            // activate horizontal and vertical zooming and scrolling
-            graph1.getViewport().setScalableY(true);
-            graph2.getViewport().setScalableY(true);
+            XAxis xAxis1 = graph1.getXAxis();
+            xAxis1.setValueFormatter(new MyAxisValueFormatter(dateString));
+            xAxis1.setGranularity(1);
+            xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            // activate vertical scrolling
-            graph1.getViewport().setScrollableY(true);
-            graph2.getViewport().setScrollableY(true);
+            //------------------------------------------
 
-            graph1.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+            LineDataSet set2 = new LineDataSet(y2Values, "Data Set 2");
+            set2.setFillAlpha(110);
+            set2.setColor(Color.RED);
+            set2.setLineWidth(3f);
+            set2.setValueTextSize(10f);
+            set2.setValueTextColor(Color.BLUE);
 
-            graph1.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-                @Override
-                public String formatLabel(double value, boolean isValueX) {
-                    if (isValueX) {
-                        // show normal x values
-                        String billingdateStr = hmap1.get(value);
-                        return hmap2.get(billingdateStr);
-                    } else {
-                        // show currency for y values
-                        return "P " + super.formatLabel(value, isValueX);
-                    }
-                }
-            });
+            ArrayList<ILineDataSet> dataSets2 = new ArrayList<>();
+            dataSets2.add(set2);
 
-            graph2.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-                @Override
-                public String formatLabel(double value, boolean isValueX) {
-                    if (isValueX) {
-                        // show normal x values
-                        return super.formatLabel(value, isValueX);
-                    } else {
-                        // show currency for y values
-                        return super.formatLabel(value, isValueX) + " CuM";
-                    }
-                }
-            });
+            LineData data2 = new LineData(dataSets2);
+            graph2.setData(data2);
+
+            XAxis xAxis2 = graph2.getXAxis();
+            xAxis2.setValueFormatter(new MyAxisValueFormatter(dateString));
+            xAxis2.setGranularity(1);
+            xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

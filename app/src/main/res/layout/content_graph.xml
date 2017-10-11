@@ -28,17 +28,19 @@
                 android:layout_marginTop="30dp">
             </Spinner>
 
-            <com.jjoe64.graphview.GraphView
+            <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/idGraphBillAmount"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="400dip"
-                android:visibility="gone"/>
+                android:visibility="gone">
+            </com.github.mikephil.charting.charts.LineChart>
 
-            <com.jjoe64.graphview.GraphView
+            <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/idGraphCubicMeterUsed"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="400dip"
-                android:visibility="gone"/>
+                android:visibility="gone">
+            </com.github.mikephil.charting.charts.LineChart>
         </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
