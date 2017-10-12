@@ -65,13 +65,13 @@
 
             <TextView
                 android:id="@+id/idTxtActivateInfo2"
-                android:text=""
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_marginTop="90dp"/>
 
             <ProgressBar
                 android:id="@+id/idProgressBar"

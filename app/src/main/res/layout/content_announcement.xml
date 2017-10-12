@@ -21,10 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="There are currently no announcements."
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
-            android:visibility="gone"
-            android:textColor="@android:color/holo_blue_dark"/>
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/idTxtDate"
