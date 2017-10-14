@@ -1,8 +1,10 @@
 package org.mnwd.mnwd;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private double bill_with_penalty;
 
     private TextView txtBillingMonth, txtBill, txtDuedate, txtDisconnectionDate, txtBillWithPenalty;
+
+    //Download PDF
+    private Button btnDownload;
+    private DownloadManager downloadManager;
+
 
     //refresh
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -99,6 +107,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Download PDF
+        btnDownload = (Button) findViewById(R.id.idBtnDownloadPDF);
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadPDF ();
+            }
+        });
+
         //SESSION
         sharedPreferences = getSharedPreferences(Config.FILENAME_SESSION, Context.MODE_PRIVATE);
 
@@ -115,6 +132,56 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //notification
         checkNotification ();
+    }
+
+    private void downloadPDF () {
+        class DownloadPDF extends AsyncTask<Void,Void,String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                if (s.contains("Error")) {
+                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
+                    /*
+                    downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                    Uri uri = Uri.parse(Config.URL_DOWNLOADPDF);
+                    DownloadManager.Request request = new DownloadManager.Request(uri);
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    Long reference = downloadManager.enqueue(request);
+                    */
+                }
+                else if (s.contains("Download Transaction confirmed")) {
+                    Uri uri = Uri.parse(Config.URL_DOWNLOADPDF);
+                    Intent intent = new Intent (Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_DOWNLOADPDF, parameter);
+                return s;
+            }
+        }
+
+        DownloadPDF dPDF = new DownloadPDF();
+        dPDF.execute();
     }
 
     //notification

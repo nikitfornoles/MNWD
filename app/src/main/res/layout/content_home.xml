@@ -90,7 +90,7 @@
 
             <Button
                 android:text="Download PDF"
-                android:id="@+id/idBtnPDF"
+                android:id="@+id/idBtnDownloadPDF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#0086c3"
