@@ -36,15 +36,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private FloatingActionButton fab;
 
     private String billingmonth, billingyear, billingdate, previous_reading, present_reading, consumption;
-    private String billamount, duedate, disconnection_date, refno, previous_billingdate;
-    private double bill_with_penalty;
+    private String billamount, duedate, disconnection_date, refno, previous_billingdate, bill_with_penalty;
 
     private TextView txtBillingMonth, txtBill, txtDuedate, txtDisconnectionDate, txtBillWithPenalty;
 
     //Download PDF
     private Button btnDownload;
     private DownloadManager downloadManager;
-
 
     //refresh
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -134,6 +132,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         checkNotification ();
     }
 
+    //Download PDF
     private void downloadPDF () {
         class DownloadPDF extends AsyncTask<Void,Void,String> {
             @Override
@@ -145,24 +144,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
 
-                if (s.contains("Error")) {
-                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
-                    /*
-                    downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                    Uri uri = Uri.parse(Config.URL_DOWNLOADPDF);
-                    DownloadManager.Request request = new DownloadManager.Request(uri);
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                    Long reference = downloadManager.enqueue(request);
-                    */
-                }
-                else if (s.contains("Download Transaction confirmed")) {
-                    Uri uri = Uri.parse(Config.URL_DOWNLOADPDF);
-                    Intent intent = new Intent (Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText (Home.this, s, Toast.LENGTH_LONG).show();
-                }
+                //Download PDF
+                downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse(s);
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                Long reference = downloadManager.enqueue(request);
             }
 
             @Override
@@ -173,6 +160,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 //argument for the php script
                 HashMap<String,String> parameter = new HashMap<> ();
                 parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                parameter.put(Config.KEY_IP, Config.IP);
 
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_DOWNLOADPDF, parameter);
@@ -183,6 +171,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         DownloadPDF dPDF = new DownloadPDF();
         dPDF.execute();
     }
+    //
 
     //notification
     private void showNotificationIcon () {
@@ -257,24 +246,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             JSONObject jo = result.getJSONObject(0);
             billingmonth = jo.getString(Config.TAG_READING_BILLINGMONTH);
             billingyear = jo.getString(Config.TAG_READING_BILLINGYEAR);
-            billingdate = jo.getString(Config.TAG_READING_BILLINGDATE);
-            previous_reading = jo.getString(Config.TAG_READING_PREVIOUS);
-            present_reading = jo.getString(Config.TAG_READING_PRESENT);
-            consumption = jo.getString(Config.TAG_READING_CONSUMPTION);
             billamount = jo.getString(Config.TAG_READING_BILLAMOUNT);
             duedate = jo.getString(Config.TAG_READING_DUEDATE);
             disconnection_date = jo.getString(Config.TAG_READING_DISCONNECTIONDATE);
-            refno = jo.getString(Config.TAG_READING_REFNO);
-            previous_billingdate = jo.getString(Config.TAG_READING_PREVIOUSBILLINGDATE);
-
-            bill_with_penalty = Double.parseDouble(billamount);
-            bill_with_penalty = bill_with_penalty + (bill_with_penalty * 0.1);
+            bill_with_penalty = jo.getString(Config.TAG_READING_BILLWPENALTY);
 
             txtBillingMonth.setText("For the Month of " + billingmonth + " " + billingyear);
             txtBill.setText("P " + billamount);
             txtDuedate.setText(duedate);
             txtDisconnectionDate.setText(disconnection_date);
-            txtBillWithPenalty.setText(String.format("P %,.2f", bill_with_penalty));
+            txtBillWithPenalty.setText(bill_with_penalty);
         } catch (JSONException e) {
             e.printStackTrace();
         }
