@@ -6,28 +6,30 @@ package org.mnwd.mnwd;
 
 public class Config {
     //Address of our scripts of the CRUD
+
     public static final String http = "http://";
-    public static final String IP = "192.168.1.3";
-    public static final String URL_FINDACCOUNTNO = http + IP + "/mnwd_/mobile_findaccountnumber.php";
-    public static final String URL_FINDBILLINGDETAILS = http + IP + "/mnwd_/mobile_findbillingdetails.php";
-    public static final String URL_SENDEMAIL = http + IP + "/mnwd_/mobile_sendemail.php";
-    public static final String URL_LOGIN = http + IP + "/mnwd_/mobile_login.php";
-    public static final String URL_GETALLANNOUNCEMENTS = http + IP + "/mnwd_/mobile_announcements.php";
-    public static final String URL_GETBILLHISTORY = http + IP + "/mnwd_/mobile_billhistory.php";
-    public static final String URL_GRAPH = http + IP + "/mnwd_/mobile_graph.php";
-    public static final String URL_REPORTINCIDENT = http + IP + "/mnwd_/mobile_reportincident.php";
-    public static final String URL_BILLCALCULATOR = http + IP + "/mnwd_/mobile_calculator.php";
-    public static final String URL_GETALLINACTIVEACCOUNTS = http + IP + "/mnwd_/mobile_getallinactiveaccounts.php";
-    public static final String URL_GETALLACTIVATEDACCOUNTS = http + IP + "/mnwd_/mobile_getallactivatedaccounts.php";
-    public static final String URL_ACTIVATEACCOUNT = http + IP + "/mnwd_/mobile_activateaccount.php";
-    public static final String URL_GETALLLOGINOPTIONS = http + IP + "/mnwd_/mobile_getallloginoptions.php";
-    public static final String URL_EDITPASSWORD = http + IP + "/mnwd_/mobile_editpassword.php";
-    public static final String URL_GETLATESTBILL = http + IP + "/mnwd_/mobile_getlatestbill.php";
-    public static final String URL_GETLATESTBILLINGYEAR = http + IP + "/mnwd_/mobile_getlatestbillingyear.php";
-    public static final String URL_CHECKNOTIFICATION = http + IP + "/mnwd_/mobile_notification_manager.php";
-    public static final String URL_GETBILLPREDICTION = http + IP + "/mnwd_/mobile_billprediction.php";
-    public static final String URL_SENDACTIVATIONCODE = http + IP + "/mnwd_/mobile_sendactivationcode.php";
-    public static final String URL_DOWNLOADPDF = http + IP + "/mnwd_/mobile_billpdf.php";
+    public static final String IP = "192.168.1.16";
+    public static final String URL = "https://mnwdtest.000webhostapp.com/";
+    public static final String URL_FINDACCOUNTNO = URL + "mobile_findaccountnumber.php";
+    public static final String URL_FINDBILLINGDETAILS = URL + "mobile_findbillingdetails.php";
+    public static final String URL_SENDEMAIL = URL + "mobile_sendemail.php";
+    public static final String URL_LOGIN = URL + "mobile_login.php";
+    public static final String URL_GETALLANNOUNCEMENTS = URL + "mobile_announcements.php";
+    public static final String URL_GETBILLHISTORY = URL + "mobile_billhistory.php";
+    public static final String URL_GRAPH = URL + "mobile_graph.php";
+    public static final String URL_REPORTINCIDENT = URL + "mobile_reportincident.php";
+    public static final String URL_BILLCALCULATOR = URL + "mobile_calculator.php";
+    public static final String URL_GETALLINACTIVEACCOUNTS = URL + "mobile_getallinactiveaccounts.php";
+    public static final String URL_GETALLACTIVATEDACCOUNTS = URL + "mobile_getallactivatedaccounts.php";
+    public static final String URL_ACTIVATEACCOUNT = URL + "mobile_activateaccount.php";
+    public static final String URL_GETALLLOGINOPTIONS = URL + "mobile_getallloginoptions.php";
+    public static final String URL_EDITPASSWORD = URL + "mobile_editpassword.php";
+    public static final String URL_GETLATESTBILL = URL + "mobile_getlatestbill.php";
+    public static final String URL_GETLATESTBILLINGYEAR = URL + "mobile_getlatestbillingyear.php";
+    public static final String URL_CHECKNOTIFICATION = URL + "mobile_notification_manager.php";
+    public static final String URL_GETBILLPREDICTION = URL + "mobile_billprediction.php";
+    public static final String URL_SENDACTIVATIONCODE = URL + "mobile_sendactivationcode.php";
+    public static final String URL_DOWNLOADPDF = URL + "mobile_billpdf.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";
