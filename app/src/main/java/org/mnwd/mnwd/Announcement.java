@@ -272,7 +272,7 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
             String year = date [0];
             int monthno = Integer.parseInt(date[1]);
             int day = Integer.parseInt(date[2]);
-            txtDate.setText(month[monthno] + " " + day + ", " + year);
+            txtDate.setText(month[monthno-1] + " " + day + ", " + year);
         } catch (JSONException e) {
             e.printStackTrace();
         }
