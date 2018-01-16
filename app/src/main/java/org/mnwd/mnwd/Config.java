@@ -9,9 +9,9 @@ public class Config {
 
     public static final String http = "http://";
     public static final String IP = "192.168.1.30";
-    public static final String port_no = ":8080";
+    public static final String port_no = "8080";
     public static final String repository = "/mnwd_/";
-    public static final String URL = http + IP + port_no + repository;
+    public static final String URL = http + IP + ":" + port_no + repository;
     //public static final String URL = "https://mnwdtest.000webhostapp.com/";
     public static final String URL_FINDACCOUNTNO = URL + "mobile_findaccountnumber.php";
     public static final String URL_FINDBILLINGDETAILS = URL + "mobile_findbillingdetails.php";
@@ -52,6 +52,7 @@ public class Config {
     public static final String KEY_ACC_TYPE = "type";
     public static final String KEY_ACC_ACTIVATION_CODE = "activation_code";
     public static final String KEY_IP = "ip";
+    public static final String KEY_PORT = "port";
 
     //Android Session Management Keys
     public static final String FILENAME_SESSION = "UserPrefs";

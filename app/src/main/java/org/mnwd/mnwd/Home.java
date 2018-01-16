@@ -161,6 +161,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 HashMap<String,String> parameter = new HashMap<> ();
                 parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
                 parameter.put(Config.KEY_IP, Config.IP);
+                parameter.put(Config.KEY_PORT, Config.port_no);
 
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_DOWNLOADPDF, parameter);
