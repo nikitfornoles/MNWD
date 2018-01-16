@@ -215,11 +215,18 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
                     String predictedUsage = infobits[1];
                     String predictedBill = infobits[2];
 
+                    //parse latest billing date by year, month, and day
                     String [] billingdate = latestbillingdate.split("-");
                     String year = billingdate[0];
-                    String monthno = billingdate [1];
-                    int nextmonthno = Integer.parseInt(monthno) + 1;
+                    String monthnoStr = billingdate [1];
+                    String day = billingdate [2];
+
+                    int monthno = Integer.parseInt(monthnoStr);
+                    int nextmonthno = monthno + 1;
+                    year = (nextmonthno > 12 ? Integer.toString (Integer.parseInt(year) + 1) : year);
+                    nextmonthno = nextmonthno % 12;
                     String nextmonthStr = Integer.toString(nextmonthno);
+                    nextmonthStr = (nextmonthno < 10 ? "0" + nextmonthStr : nextmonthStr);
                     String month = hmapMonth.get(nextmonthStr);
 
                     txtNextMonth.setText("For the Month of " + month + " " + year);
