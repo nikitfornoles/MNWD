@@ -8,8 +8,11 @@ public class Config {
     //Address of our scripts of the CRUD
 
     public static final String http = "http://";
-    public static final String IP = "192.168.1.16";
-    public static final String URL = "https://mnwdtest.000webhostapp.com/";
+    public static final String IP = "192.168.1.30";
+    public static final String port_no = ":8080";
+    public static final String repository = "/mnwd_/";
+    public static final String URL = http + IP + port_no + repository;
+    //public static final String URL = "https://mnwdtest.000webhostapp.com/";
     public static final String URL_FINDACCOUNTNO = URL + "mobile_findaccountnumber.php";
     public static final String URL_FINDBILLINGDETAILS = URL + "mobile_findbillingdetails.php";
     public static final String URL_SENDEMAIL = URL + "mobile_sendemail.php";
