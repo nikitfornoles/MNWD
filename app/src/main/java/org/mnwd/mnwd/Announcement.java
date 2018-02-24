@@ -317,34 +317,20 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
             @Override
             protected String doInBackground(String... params) {
-                String uri = params[0]; //Creating a uri
-                BufferedReader bufferedReader = null;
-                try {
-                    URL url = new URL(uri);
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_IP, Config.IP);
+                parameter.put(Config.KEY_PORT, Config.port_no);
+                parameter.put("repository", Config.repository);
 
-                    //Creating an httmlurl connection
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-                    //StringBuilder object to store the message retrieved from the server
-                    StringBuilder sb = new StringBuilder();
-
-                    //Reading parameters to the request
-                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while((json = bufferedReader.readLine())!= null){
-                        sb.append(json+"\n");
-                    }
-
-                    return sb.toString().trim();
-
-                }catch(Exception e){
-                    return null;
-                }
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GETALLANNOUNCEMENTS, parameter);
+                return s;
             }
         }
+
         GetAllImages gai = new GetAllImages();
-        gai.execute(Config.URL_GETALLANNOUNCEMENTS);
+        gai.execute();
     }
 
     private void getImage(String urlToImage){
