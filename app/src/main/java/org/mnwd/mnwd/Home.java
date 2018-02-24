@@ -257,7 +257,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             txtDuedate.setText(duedate);
             txtDisconnectionDate.setText(disconnection_date);
             txtBillWithPenalty.setText(bill_with_penalty);
-        } catch (JSONException e) {
+        } 
+        catch (JSONException e) {
             e.printStackTrace();
         }
     }

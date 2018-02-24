@@ -286,7 +286,7 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
                 dateString [i] = hmapMonth.get(MM) + yyyy;
 
             }
-            LineDataSet set1 = new LineDataSet(y1Values, "Data Set 1");
+            LineDataSet set1 = new LineDataSet(y1Values, "Monthly Bill");
             set1.setFillAlpha(110);
             set1.setColor(Color.RED);
             set1.setLineWidth(3f);
@@ -306,7 +306,7 @@ public class Graph extends AppCompatActivity implements NavigationView.OnNavigat
 
             //------------------------------------------
 
-            LineDataSet set2 = new LineDataSet(y2Values, "Data Set 2");
+            LineDataSet set2 = new LineDataSet(y2Values, "Monthly Consumption");
             set2.setFillAlpha(110);
             set2.setColor(Color.RED);
             set2.setLineWidth(3f);

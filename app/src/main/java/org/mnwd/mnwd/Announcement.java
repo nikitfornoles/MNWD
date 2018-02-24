@@ -317,13 +317,18 @@ public class Announcement extends AppCompatActivity implements NavigationView.On
 
             @Override
             protected String doInBackground(String... params) {
-                String uri = params[0];
+                String uri = params[0]; //Creating a uri
                 BufferedReader bufferedReader = null;
                 try {
                     URL url = new URL(uri);
+
+                    //Creating an httmlurl connection
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    //StringBuilder object to store the message retrieved from the server
                     StringBuilder sb = new StringBuilder();
 
+                    //Reading parameters to the request
                     bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     String json;
