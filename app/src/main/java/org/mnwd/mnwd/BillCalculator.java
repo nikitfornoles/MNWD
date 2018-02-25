@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BillCalculator extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,14 +41,14 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
     private Toolbar toolbar = null;
     private FloatingActionButton fab;
 
-    private String classification, cubicMeterUsed, metersize, type = "", totalbill;
+    private String classification, cubicMeterUsed, metersize, type = "", totalbill, discountRate, discountAmount;
     private String result;
 
     private Spinner spinnerAccountClassification, spinnerMeterSize;
     private TextInputEditText editCubicMeterUsed;
     private RadioGroup radioType;
     private Button btnCalculate;
-    private TextView txtTotalBill;
+    private TextView txtTotalBill, txtDiscountRate, txtDiscountAmount;
 
     private String [] CUSTTYPE = {"Residential", "Commercial", "Commercial A", "Commercial B", "Commercial C", "Bulk/Wholesale"};
     private String [] METERSIZE = {"1/2", "3/4", "1", "1.5", "2", "3", "4", "6", "8", "10"};
@@ -56,7 +57,7 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
     private SwipeRefreshLayout swipeRefreshLayout;
 
     //content
-    private String JSON_STRING;
+    private String JSON_STRING, JSON_RESULT;
 
     //notification
     private String notif1, notif2, notif3, mixed;
@@ -140,6 +141,8 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
         );
 
         txtTotalBill = (TextView) findViewById(R.id.idTxtTotalBill);
+        txtDiscountRate = (TextView) findViewById(R.id.idTxtDiscountRate);
+        txtDiscountAmount = (TextView) findViewById(R.id.idTxtDiscountAmount);
 
         ArrayAdapter <String> arrayAdapterCusttype = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, CUSTTYPE);
         spinnerAccountClassification = (Spinner) findViewById(R.id.idSpinnerAcctClass);
@@ -227,6 +230,26 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
     }
     //
 
+    private void displayResult () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_RESULT);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            JSONObject jo = result.getJSONObject(0);
+            totalbill = jo.getString(Config.TAG_READING_BILLAMOUNT);
+            discountRate = jo.getString("discount_rate");
+            discountAmount = jo.getString("discount_amount");
+
+            txtTotalBill.setText(totalbill);
+            txtDiscountRate.setText(discountRate);
+            txtDiscountAmount.setText(discountAmount);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void calculateBill () {
         if (TextUtils.isEmpty(editCubicMeterUsed.getText().toString().trim()) || type.isEmpty()) {
             if (TextUtils.isEmpty(editCubicMeterUsed.getText().toString().trim())) {
@@ -257,10 +280,10 @@ public class BillCalculator extends AppCompatActivity implements NavigationView.
                     String conn_success = "connection success~";
                     if (s.contains(conn_success)) {
                         String calculator_status = s.replaceAll(conn_success, "");
-                        String calculator_success = "billamount~";
+                        String calculator_success = "result";
                         if (calculator_status.contains(calculator_success)) {
-                            totalbill = calculator_status.replaceAll(calculator_success, "");
-                            txtTotalBill.setText(totalbill);
+                            JSON_RESULT = calculator_status;
+                            displayResult();
                         }
                         else {
                             Toast.makeText (BillCalculator.this, calculator_status, Toast.LENGTH_LONG).show();
