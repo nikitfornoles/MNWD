@@ -33,6 +33,7 @@ public class Config {
     public static final String URL_GETBILLPREDICTION = URL + "mobile_billprediction.php";
     public static final String URL_SENDACTIVATIONCODE = URL + "mobile_sendactivationcode.php";
     public static final String URL_DOWNLOADPDF = URL + "mobile_billpdf.php";
+    public static final String URL_GETBILLINGYEARS = URL + "mobile_getbillingyears.php";
 
     //Keys that will be used to send the request to php scripts
     public static final String KEY_CON_ACCOUNTNO = "accountno";

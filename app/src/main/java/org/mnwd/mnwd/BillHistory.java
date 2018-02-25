@@ -17,9 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -39,8 +42,9 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
     private SwipeRefreshLayout swipeRefreshLayout;
 
     //content
+    private Spinner spinnerBillingYear;
     private ListView listView;
-    private String JSON_STRING;
+    private String JSON_STRING, JSON_BILLINGYEARS, arrBillingYears[];
     //
 
     //notification
@@ -104,13 +108,28 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         ReusableFunctions.changeNavDrawerTitle (navigationView, sharedPreferences);
 
-        //content
-        listView = (ListView) findViewById(R.id.listView_billhistory);
-        getJSON();
-        //
-
         //notification
         checkNotification ();
+
+        //content
+        spinnerBillingYear = (Spinner) findViewById(R.id.idSpinnerBillingYear);
+        listView = (ListView) findViewById(R.id.listView_billhistory);
+
+        getBillingYears();
+
+        spinnerBillingYear.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        getBillHistory();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+        });
+        //
     }
 
     //notification
@@ -178,6 +197,65 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
     //
 
     //content
+    private void showBillingYears () {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSON_BILLINGYEARS);
+            JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
+
+            arrBillingYears = new String [result.length()];
+            for(int i = 0; i < result.length(); i++){
+                JSONObject jo = result.getJSONObject(i);
+                String year = jo.getString(Config.TAG_READING_BILLINGYEAR);
+                arrBillingYears[i] = year;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter<String> arrayAdapterBillingYear = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, arrBillingYears);
+        spinnerBillingYear.setAdapter(arrayAdapterBillingYear);
+    }
+
+    private void getBillingYears() {
+        class GetBillingYears extends AsyncTask<Void,Void,String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String conn_success = "connection success~";
+                if (s.contains(conn_success)) {
+                    JSON_BILLINGYEARS = s.replaceAll(conn_success, "");
+                    showBillingYears();
+                }
+                else {
+                    Toast.makeText (getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                //RETRIEVE SESSION DATA
+                session_accountid = sharedPreferences.getString(Config.SESSION_ACCOUNTID, null);
+
+                //argument for the php script
+                HashMap<String,String> parameter = new HashMap<> ();
+                parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendPostRequest(Config.URL_GETBILLINGYEARS, parameter);
+                return s;
+            }
+        }
+        GetBillingYears g = new GetBillingYears();
+        g.execute();
+    }
+
     private void showBillHistory(){
         JSONObject jsonObject = null;
         ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
@@ -213,8 +291,10 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
         listView.setAdapter(adapter);
     }
 
-    private void getJSON(){
-        class GetJSON extends AsyncTask<Void,Void,String> {
+    private void getBillHistory(){
+        final String billingyear = String.valueOf(spinnerBillingYear.getSelectedItem());
+
+        class GetBillHistory extends AsyncTask<Void,Void,String> {
 
             @Override
             protected void onPreExecute() {
@@ -231,7 +311,7 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
                     showBillHistory();
                 }
                 else {
-                    Toast.makeText (BillHistory.this, s, Toast.LENGTH_LONG).show();
+                    Toast.makeText (getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -243,14 +323,15 @@ public class BillHistory extends AppCompatActivity implements NavigationView.OnN
                 //argument for the php script
                 HashMap<String,String> parameter = new HashMap<> ();
                 parameter.put(Config.KEY_CON_ACCOUNTID, session_accountid);
+                parameter.put(Config.TAG_READING_BILLINGYEAR, billingyear);
 
                 RequestHandler rh = new RequestHandler();
                 String s = rh.sendPostRequest(Config.URL_GETBILLHISTORY, parameter);
                 return s;
             }
         }
-        GetJSON gj = new GetJSON();
-        gj.execute();
+        GetBillHistory g = new GetBillHistory();
+        g.execute();
     }
     //
 
