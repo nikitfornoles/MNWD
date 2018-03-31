@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * Created by Camille Fornoles on 8/12/2017.
+ * Created on 8/12/2017.
  */
 
 public class ReusableFunctions extends Activity {
