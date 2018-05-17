@@ -8,7 +8,7 @@ public class Config {
     //Address of our scripts of the CRUD
 
     public static final String http = "http://";
-    public static final String IP = "192.168.1.10";
+    public static final String IP = "192.168.1.5";
     public static final String port_no = "8080";
     public static final String repository = "/mnwd_/";
     public static final String URL = http + IP + ":" + port_no + repository;

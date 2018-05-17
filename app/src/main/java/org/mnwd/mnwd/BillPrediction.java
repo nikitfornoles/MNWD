@@ -224,7 +224,7 @@ public class BillPrediction extends AppCompatActivity implements NavigationView.
                     int monthno = Integer.parseInt(monthnoStr);
                     int nextmonthno = monthno + 1;
                     year = (nextmonthno > 12 ? Integer.toString (Integer.parseInt(year) + 1) : year);
-                    nextmonthno = nextmonthno % 12;
+                    nextmonthno = (nextmonthno % 12) + 1;
                     String nextmonthStr = Integer.toString(nextmonthno);
                     nextmonthStr = (nextmonthno < 10 ? "0" + nextmonthStr : nextmonthStr);
                     String month = hmapMonth.get(nextmonthStr);
